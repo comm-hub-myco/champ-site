@@ -1,1 +1,8 @@
-
+{
+"siteName": "The Soil",
+"protonFeed": { "maxItems": 10 },
+"calendar": { "tz": "America/New_York" },
+"suggestionBox": {
+"endpoint": "https://formspree.io/f/xjkjbrqw"
+}
+}
