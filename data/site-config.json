@@ -1,1 +1,8 @@
-
+{
+"siteName": "C.H.A.M.P.",
+"protonFeed": { "maxItems": 10 },
+"calendar": { "tz": "America/New_York" },
+"suggestionBox": {
+"endpoint": "https://formspree.io/f/your-form-id"
+}
+}
