@@ -34,31 +34,56 @@ Open `index.html` in VS Code with “Live Server” or any static file server.
 Add `.github/workflows/build-manifests.yml`:
 ```yaml
 name: Build manifests
+
 on:
-push:
-paths:
-- 'pages/dashboard/calendar/events/**'
-- '.github/workflows/build-manifests.yml'
-workflow_dispatch:
+  push:
+    paths:
+      - 'pages/dashboard/calendar/events/**'
+      - '.github/workflows/build-manifests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
 jobs:
-build:
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- name: Generate calendar index.json
-run: |
-files=$(ls -1 pages/dashboard/calendar/events | sort)
-printf '{\n "events": [\n' > pages/dashboard/calendar/index.json
-first=1
-for f in $files; do
-if [ $first -eq 1 ]; then sep=' '; first=0; else sep=' ,'; fi
-printf "%s\"%s\"\n" "$sep" "$f" >> pages/dashboard/calendar/index.json
-done
-printf ' ]\n}\n' >> pages/dashboard/calendar/index.json
-- name: Commit & push
-run: |
-git config user.name "gh-actions"
-git config user.email "actions@github.com"
-git add pages/dashboard/calendar/index.json
-git commit -m "chore: rebuild calendar manifest" || echo "No changes"
-git push
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Generate calendar index.json
+        shell: bash
+        run: |
+          set -euo pipefail
+          dir="pages/dashboard/calendar/events"
+          out="pages/dashboard/calendar/index.json"
+
+          # Collect & sort event filenames (only regular files)
+          mapfile -t files < <(find "$dir" -maxdepth 1 -type f -printf '%f\n' | sort)
+
+          # Write JSON without relying on tricky printf escaping
+          {
+            echo '{'
+            echo '  "events": ['
+            sep='  '
+            for f in "${files[@]}"; do
+              echo "${sep}\"$f\""
+              sep='  ,'
+            done
+            echo '  ]'
+            echo '}'
+          } > "$out"
+
+      - name: Commit & push
+        shell: bash
+        run: |
+          set -e
+          git config user.name "gh-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pages/dashboard/calendar/index.json
+          git commit -m "chore: rebuild calendar manifest" || exit 0
+          git push
+
