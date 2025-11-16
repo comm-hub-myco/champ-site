@@ -1,6 +1,7 @@
 {
-"events": [
-"2025-11-12-community-meetup.txt",
-"2025-11-20-foray-announcement.txt"
-]
+  "events": [
+  "2025-11-12-community-meetup.txt"
+  ,"2025-11-20-foray-announcement.txt"
+  ,"2026-01-15-fungal-dy-workshop"
+  ]
 }

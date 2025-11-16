@@ -163,10 +163,10 @@ const Calendar = (() => {
       const host = document.querySelector(selector);
       if (!host) return;
       const events = await loadEvents();
+      //document.querySelector(selector).insertAdjacentHTML('beforebegin', `<pre style="white-space:pre-wrap;opacity:.7">[debug] ${JSON.stringify(events, null, 2)}</pre>`);
       const view = luxon.DateTime.local();
       console.info('[Calendar] Loaded events:', events);
       renderCalendar(host, view, events);
     }
   };
 })();
-
