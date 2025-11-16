@@ -30,7 +30,7 @@ backdrop-filter: blur(6px);
 
 .grid {
 padding: 24px clamp(12px, 4vw, 36px);
-display:grid; grid-template-columns: repeat(minmax(320px, 1fr), auto-fit); grid-auto-rows: 1fr; gap:18px;
+display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); grid-auto-rows: 1fr; gap:18px;
 }
 .card {
 background: linear-gradient(180deg, #15151a, #131318);
