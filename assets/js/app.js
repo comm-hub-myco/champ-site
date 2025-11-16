@@ -19,6 +19,13 @@ const modules = await (await fetch('data/modules.json')).json();
 
 // render modules specified for the dashboard
 const host = $('#frontpage');
+if (mod === 'suggestion-box') {
+const el = document.createElement('article');
+el.className = 'card';
+el.innerHTML = `<h2>Suggestion Box (Anonymous)</h2><div id="suggestion-box"></div>`;
+host.appendChild(el);
+SuggestionBox.mount('#suggestion-box', this.config.suggestionBox);
+}
 for (const mod of modules.frontpage) {
 if (mod === 'calendar') {
 const el = document.createElement('article');
@@ -33,13 +40,6 @@ el.className = 'card';
 el.innerHTML = `<h2>Community Feed (Proton)</h2><div id="proton-feed" class="feed-list"></div>`;
 host.appendChild(el);
 await ProtonFeed.render('#proton-feed', this.config.protonFeed);
-}
-if (mod === 'suggestion-box') {
-const el = document.createElement('article');
-el.className = 'card';
-el.innerHTML = `<h2>Suggestion Box (Anonymous)</h2><div id="suggestion-box"></div>`;
-host.appendChild(el);
-SuggestionBox.mount('#suggestion-box', this.config.suggestionBox);
 }
 }
 }
