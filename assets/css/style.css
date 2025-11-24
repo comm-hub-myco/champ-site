@@ -3,7 +3,7 @@
 --panel: #cdc3d5;
 --text: #344E41;
 --text-2: #3A5A40;
---muted: #A3B18A;
+--muted: #90a27c;
 --accent: #90323D;
 --accent-2: #5E0B15;
 --accent-3: #f09744;
@@ -51,9 +51,36 @@ box-shadow: 0 10px 30px rgba(0,0,0,.25);
 .calendar .dow { color: var(--text-2); font-size:1rem; text-align:center; padding:0px 0; }
 .calendar .cell { background: var(--panel); border:1px solid var(--ring); border-radius:10px; padding:2px; min-height:40px; max-height:80px; position:relative; }
 .calendar .date { position:absolute; top:2px; right:2px; color: var(--accent); font-size:.9rem; }
-.event-pill { display:block; margin-top: 2px; padding: 2px 8px; border-radius: 8px; background: var(--accent-3); border:1px solid var(--muted); font-size:.82rem; line-height:1.2; }
+.event-pill { display:block; margin-top: 2px; padding: 2px 2px; border-radius: 8px; background: var(--accent-3); border:1px solid var(--muted); text-align:center; font-size:.82rem; line-height:1.1; }
 .event-pill .t { color: var(--ring); font-weight:600; }
-.event-pill .l { color: var(--accent-2); }
+.event-pill .l { color: var(--accent-2); font-size: xx-small;}
+
+/* Generic page main layout (calendar, etc.) */
+.page-main {
+  padding: 24px clamp(12px, 4vw, 36px);
+}
+
+/* Calendar page card fills nicely on both desktop and mobile */
+.calendar-page-card {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.calendar-page {
+  margin-top: 12px;
+}
+
+/* If you want calendar to be more compact on very small screens */
+@media (max-width: 600px) {
+  .calendar .cell {
+    min-height: 60px;
+    padding: 6px;
+  }
+  .event-pill {
+    margin-top: 16px;
+    font-size: 0.78rem;
+  }
+}
 
 
 /* Proton feed */
@@ -110,7 +137,7 @@ button.primary:hover { filter: brightness(1.1); }
   gap: 10px;
   padding: 10px;
   border-radius: 12px;
-  background: #0f1014;
+  background: var(--accent-3);
   border: 1px solid var(--ring);
   text-decoration: none;
   color: var(--text);
@@ -119,7 +146,7 @@ button.primary:hover { filter: brightness(1.1); }
 
 .event-card:hover {
   transform: translateY(-1px);
-  border-color: var(--accent);
+  border-color: var(--ring);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -127,7 +154,7 @@ button.primary:hover { filter: brightness(1.1); }
   flex: 0 0 64px;
   height: 64px;
   border-radius: 10px;
-  background: radial-gradient(circle at 30% 20%, var(--accent-2), #10121b);
+  background: radial-gradient(circle at 30% 20%, var(--panel), var(--accent-3));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,7 +180,7 @@ button.primary:hover { filter: brightness(1.1); }
 
 .event-card-date {
   font-size: 0.8rem;
-  color: var(--muted);
+  color: var(--accent-2);
 }
 
 .event-card-title {
@@ -163,7 +190,7 @@ button.primary:hover { filter: brightness(1.1); }
 
 .event-card-meta {
   font-size: 0.8rem;
-  color: var(--muted);
+  color: var(--text);
 }
 
 /* Event detail page */
@@ -177,7 +204,7 @@ button.primary:hover { filter: brightness(1.1); }
 
 .event-detail-date {
   font-size: 0.9rem;
-  color: var(--muted);
+  color: var(--accent-2);
   margin: 0 0 4px;
 }
 

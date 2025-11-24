@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C.H.A.M.P. — Calendar</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🍄</div>
+      <div class="titles">
+        <h1>C.H.A.M.P.</h1>
+        <p>Community EventsCalendar</p>
+      </div>
+    </div>
+    <nav class="site-nav">
+    <a href="/champ-site/">News</a>
+    <a href="/champ-site/calendar/">Calendar</a>
+    </nav>
+  </header>
+
+  <main class="page-main">
+    <section class="card calendar-page-card">
+      <header class="front-section-header">
+        <h2>Events Calendar</h2>
+        <p class="muted">
+          All upcoming and past events in one view. Click a day to see what’s happening.
+        </p>
+      </header>
+      <div id="calendar-page" class="calendar calendar-page"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> C.H.A.M.P.</span>
+  </footer>
+
+  <!-- Same Luxon + calendar module you already use -->
+  <script defer src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+  <script defer src="../assets/js/modules/calendar.js"></script>
+  <script defer>
+  document.addEventListener('DOMContentLoaded', () => {
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    if (window.Calendar) {
+      // We're in /calendar/, so go up one level to reach /pages/...
+      Calendar.render('#calendar-page', { basePath: '..' });
+    } else {
+      console.warn('Calendar module not found.');
+    }
+  });
+</script>
+</body>
+</html>
+
