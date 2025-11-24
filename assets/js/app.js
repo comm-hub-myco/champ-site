@@ -57,6 +57,22 @@ const App = {
         host.appendChild(el);
         LinksGrid.render('#links-grid', this.config.links || {});
       }
+
+      if (mod === 'suggestion-box') {
+    const el = document.createElement('section');
+    el.className = 'card front-section front-suggestions';
+    el.innerHTML = `
+      <header class="front-section-header">
+        <h2>Suggestion Box</h2>
+        <p class="muted">
+          Share ideas, feedback, or wishes for C.H.A.M.P. (anonymous by default).
+        </p>
+      </header>
+      <div id="suggestion-box"></div>
+    `;
+    host.appendChild(el);
+    SuggestionBox.mount('#suggestion-box', this.config.suggestionBox || {});
+     } 
     }
   }
 };;

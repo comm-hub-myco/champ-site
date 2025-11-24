@@ -7,14 +7,14 @@ function formTemplate() {
 return `
 <form id="sb-form" class="form" novalidate>
 <label>
-<span class="text">How should members of the community communicate?</span>
-<textarea name="message" rows="5" required placeholder="Share a communication platform or method..."></textarea>
+<span class="text">How should members of C.H.A.M.P. share info? What communication platforms do you think work best?</span>
+<textarea name="message" rows="2" required placeholder="Enter a communication platform..."></textarea>
 </label>
 <label>
 <span class="text">(Optional) Your Name?</span>
-<input name="contact" type="text" placeholder="Only if you'd like to share" />
+<input name="contact" type="text" placeholder="Your Name..." />
 </label>
-<button class="primary" type="submit">Send</button>
+<button class="primary" type="submit">Submit</button>
 <div class="status" id="sb-status"></div>
 </form>
 `;
