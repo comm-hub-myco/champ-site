@@ -1,6 +1,0 @@
-Title: Community Kickoff Meetup
-Date: 2025-11-12
-Time: 18:30
-Location: Ipswich Town Hall Annex
-Link: https://example.org/rsvp
-Description: Informal gathering to plan winter mushroom projects (art, cultivation, writing).

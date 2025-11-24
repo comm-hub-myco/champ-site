@@ -1,6 +1,0 @@
-Title: North Shore Field Foray
-Date: 2025-11-20
-Time: 09:00
-Location: Halibut Point State Park
-Link: https://example.org/foray
-Description: Bring field guides and weather-ready gear. Beginners welcome!

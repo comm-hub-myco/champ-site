@@ -7,11 +7,11 @@ function formTemplate() {
 return `
 <form id="sb-form" class="form" novalidate>
 <label>
-<span class="muted">How should members of the community communicate?</span>
+<span class="text">How should members of the community communicate?</span>
 <textarea name="message" rows="5" required placeholder="Share a communication platform or method..."></textarea>
 </label>
 <label>
-<span class="muted">(Optional) Your Name?</span>
+<span class="text">(Optional) Your Name?</span>
 <input name="contact" type="text" placeholder="Only if you'd like to share" />
 </label>
 <button class="primary" type="submit">Send</button>
