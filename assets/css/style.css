@@ -3,11 +3,12 @@
 --panel: #cdc3d5;
 --text: #344E41;
 --text-2: #3A5A40;
---muted: #A3B18A;
+--muted: #90a27c;
 --accent: #90323D;
 --accent-2: #5E0B15;
 --accent-3: #f09744;
 --ring: #1A1B41;
+--dark: #0f1014;
 }
 * { box-sizing: border-box; }
 html, body { height: 100%; }
@@ -26,7 +27,7 @@ backdrop-filter: blur(6px);
 .titles h1 { margin:0; font-size: 4rem; letter-spacing:.02em; }
 .titles p { margin:.125rem 0 0; color: var(--text-2); font-size:.9rem; font-weight: 600;}
 .site-nav { margin-top:12px; display:flex; gap:8px; }
-.site-nav a { color: var(--panel); text-decoration:none; padding:6px 10px; border-radius:8px; border:1px solid transparent; }
+.site-nav a { color: var(--text-2); background: var(--panel); text-decoration:none; padding:6px 10px; border-radius:8px; border:1px solid transparent; }
 .site-nav a.active, .site-nav a:hover { color: var(--accent-2); border-color: var(--ring); background: var(--muted); }
 
 
@@ -51,9 +52,36 @@ box-shadow: 0 10px 30px rgba(0,0,0,.25);
 .calendar .dow { color: var(--text-2); font-size:1rem; text-align:center; padding:0px 0; }
 .calendar .cell { background: var(--panel); border:1px solid var(--ring); border-radius:10px; padding:2px; min-height:40px; max-height:80px; position:relative; }
 .calendar .date { position:absolute; top:2px; right:2px; color: var(--accent); font-size:.9rem; }
-.event-pill { display:block; max-block-size: 70px; margin-top: 2px; padding: 2px 8px; border-radius: 8px; background: var(--accent-3); border:1px solid var(--muted); font-size:.75rem; line-height:1.1; }
-.event-pill .t { color: var(--ring); font-weight:600; overflow-block: auto;}
-.event-pill .l { color: var(--accent-2); }
+.event-pill { display:block; margin-top: 2px; padding: 2px 2px; border-radius: 8px; background: var(--accent-3); border:1px solid var(--muted); text-align:center; font-size:.82rem; line-height:1.1; }
+.event-pill .t { color: var(--ring); font-weight:600; }
+.event-pill .l { color: var(--accent-2); font-size: xx-small;}
+
+/* Generic page main layout (calendar, etc.) */
+.page-main {
+  padding: 24px clamp(12px, 4vw, 36px);
+}
+
+/* Calendar page card fills nicely on both desktop and mobile */
+.calendar-page-card {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.calendar-page {
+  margin-top: 12px;
+}
+
+/* If you want calendar to be more compact on very small screens */
+@media (max-width: 600px) {
+  .calendar .cell {
+    min-height: 60px;
+    padding: 6px;
+  }
+  .event-pill {
+    margin-top: 16px;
+    font-size: 0.78rem;
+  }
+}
 
 
 /* Proton feed */
@@ -64,11 +92,11 @@ box-shadow: 0 10px 30px rgba(0,0,0,.25);
 
 
 /* Suggestion box */
-.form { display:grid; gap:10px;}
-input, textarea, button, select {
+.form { display:grid; gap:10px; font-size:1.5rem; text-align:center; color: var(--accent-2);}
+input, textarea, select {
 background:var(--bg); color:var(--text); border:1px solid var(--ring); border-radius:10px; padding:10px; font-size:1rem;
 }
-button { cursor:pointer; }
+button { cursor:pointer; background:var(--bg); color:var(--text); border:1px solid var(--ring); border-radius:10px; padding:10px; font-size:1rem;}
 button.primary { background: linear-gradient(180deg, var(--bg), var(--panel)); border-color: var(--ring); }
 button.primary:hover { filter: brightness(1.1); }
-.status { font-size:.9rem; color: var(--accent-2); }
+.status { font-size:.9rem; color: var(--text-2); }

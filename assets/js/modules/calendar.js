@@ -1,5 +1,4 @@
-// Calendar Module — loads events from pages/dashboard/calendar/*. Uses Luxon.
-const Calendar = (() => {
+window.Calendar = (() => {
   const { DateTime } = luxon;
 
   function parseEventText(txt) {
@@ -9,101 +8,108 @@ const Calendar = (() => {
       if (m) ev[m[1].toLowerCase()] = m[2].trim();
     });
     ev.date = ev.date || ev.when || ev.on;
-    ev.title = ev.title || 'Untitled Event';
+    ev.title = ev.title || "Untitled Event";
     return ev;
   }
 
   async function loadJSON(path) {
-    const res = await fetch(`${path}?v=${Date.now()}`, { cache: 'no-store' });
+    const res = await fetch(`${path}?v=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
     return res.json();
   }
+
   async function loadText(path) {
-    const res = await fetch(`${path}?v=${Date.now()}`, { cache: 'no-store' });
+    const res = await fetch(`${path}?v=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
     return res.text();
   }
 
-  async function loadEvents() {
+  async function loadEvents(basePath) {
+    const base = basePath || ".";
     let manifest;
     try {
-      manifest = await loadJSON('pages/dashboard/calendar/index.json');
+      manifest = await loadJSON(`${base}/pages/dashboard/calendar/index.json`);
     } catch (e) {
-      console.warn('[Calendar] Could not load manifest:', e);
+      console.warn("[Calendar] Could not load manifest:", e);
       return [];
     }
+
     const files = Array.isArray(manifest.events) ? manifest.events : [];
     if (!files.length) {
-      console.info('[Calendar] Manifest has no events.');
+      console.info("[Calendar] Manifest has no events.");
       return [];
     }
 
     const events = [];
     for (const fname of files) {
-      const path = `pages/dashboard/calendar/events/${fname}`;
+      const path = `${base}/pages/dashboard/calendar/events/${fname}`;
       try {
         const txt = await loadText(path);
         const ev = parseEventText(txt);
 
-        // parse date/time
+        // store filename so we can build event.html?id=<filename>
+        ev._file = fname;
+
         let dt = null;
         if (ev.date) {
           const raw = ev.time ? `${ev.date} ${ev.time}` : ev.date;
-          dt = DateTime.fromFormat(raw, 'yyyy-MM-dd HH:mm', { zone: 'local' });
-          if (!dt.isValid) dt = DateTime.fromFormat(raw, 'yyyy-MM-dd', { zone: 'local' });
-          if (!dt.isValid) dt = DateTime.fromISO(ev.date, { zone: 'local' });
+          dt = DateTime.fromFormat(raw, "yyyy-MM-dd HH:mm", { zone: "local" });
+          if (!dt.isValid)
+            dt = DateTime.fromFormat(raw, "yyyy-MM-dd", { zone: "local" });
+          if (!dt.isValid) dt = DateTime.fromISO(ev.date, { zone: "local" });
         }
         ev._dt = dt && dt.isValid ? dt : null;
+
         events.push(ev);
       } catch (e) {
-        console.warn('[Calendar] Failed loading event file:', path, e);
+        console.warn("[Calendar] Failed loading event file:", path, e);
       }
     }
 
-    // sort by date
     events.sort((a, b) => {
       const A = a._dt ? a._dt.toMillis() : Infinity;
       const B = b._dt ? b._dt.toMillis() : Infinity;
       return A - B;
     });
+
     return events;
   }
 
   function monthGrid(dt) {
-    const start = dt.startOf('month');
+    const start = dt.startOf("month");
     const firstDow = start.weekday % 7; // Sun=0
     const gridStart = start.minus({ days: firstDow });
     return Array.from({ length: 42 }, (_, i) => gridStart.plus({ days: i }));
   }
 
-  function renderCalendar(el, view, events) {
-    const host = typeof el === 'string' ? document.querySelector(el) : el;
-    host.innerHTML = '';
+  function renderCalendar(el, view, events, basePath) {
+    const host = typeof el === "string" ? document.querySelector(el) : el;
+    host.innerHTML = "";
 
-    const header = document.createElement('div');
-    header.className = 'header';
+    const header = document.createElement("div");
+    header.className = "header";
     header.innerHTML = `
       <button id="prev-month" aria-label="Previous Month">◀</button>
-      <div><strong>${view.toFormat('MMMM yyyy')}</strong></div>
+      <div><strong>${view.toFormat("MMMM yyyy")}</strong></div>
       <button id="next-month" aria-label="Next Month">▶</button>
     `;
     host.appendChild(header);
 
-    const grid = document.createElement('div');
-    grid.className = 'grid';
+    const grid = document.createElement("div");
+    grid.className = "grid";
 
-    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
-      const h = document.createElement('div');
-      h.className = 'dow';
+    ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((d) => {
+      const h = document.createElement("div");
+      h.className = "dow";
       h.textContent = d;
       grid.appendChild(h);
     });
 
     const days = monthGrid(view);
-    const todayKey = luxon.DateTime.local().toISODate();
+    const todayKey = DateTime.local().toISODate();
     const byDay = new Map();
 
-    events.forEach(ev => {
+    events.forEach((ev) => {
       if (ev._dt) {
         const key = ev._dt.toISODate();
         if (!byDay.has(key)) byDay.set(key, []);
@@ -111,27 +117,35 @@ const Calendar = (() => {
       }
     });
 
-    days.forEach(d => {
-      const cell = document.createElement('div');
-      cell.className = 'cell';
+    days.forEach((d) => {
+      const cell = document.createElement("div");
+      cell.className = "cell";
       const inMonth = d.month === view.month;
-      if (!inMonth) cell.style.opacity = .45;
+      if (!inMonth) cell.style.opacity = 0.45;
 
-      const dateLabel = document.createElement('div');
-      dateLabel.className = 'date';
+      const dateLabel = document.createElement("div");
+      dateLabel.className = "date";
       dateLabel.textContent = d.day;
-      if (d.toISODate() === todayKey) dateLabel.style.color = '#fff';
+      if (d.toISODate() === todayKey) dateLabel.style.color = "#fff";
       cell.appendChild(dateLabel);
 
       const key = d.toISODate();
       const items = byDay.get(key) || [];
-      items.forEach(ev => {
-        const pill = document.createElement('a');
-        pill.className = 'event-pill';
-        pill.href = ev.link || '#';
-        pill.target = ev.link ? '_blank' : '_self';
-        const t = ev.time ? ` @ ${ev.time}` : '';
-        pill.innerHTML = `<span class="t">${ev.title}${t}</span><br><span class="l">${ev.location || ''}</span>`;
+      items.forEach((ev) => {
+        const pill = document.createElement("a");
+        pill.className = "event-pill";
+
+        // Link to event.html, with basePath-aware URL
+        const eventPageBase = basePath || ".";
+        pill.href = `${eventPageBase}/event.html?id=${encodeURIComponent(
+          ev._file || ""
+        )}`;
+        pill.target = "_self";
+
+        const t = ev.time ? ` @ ${ev.time}` : "";
+        pill.innerHTML = `<span class="t">${ev.title}${t}</span><br><span class="l">${
+          ev.location || ""
+        }</span>`;
         cell.appendChild(pill);
       });
 
@@ -140,20 +154,19 @@ const Calendar = (() => {
 
     host.appendChild(grid);
 
-    // nav
-    host.querySelector('#prev-month')?.addEventListener('click', () => {
-      renderCalendar(host, view.minus({ months: 1 }), events);
+    host.querySelector("#prev-month")?.addEventListener("click", () => {
+      renderCalendar(host, view.minus({ months: 1 }), events, basePath);
     });
-    host.querySelector('#next-month')?.addEventListener('click', () => {
-      renderCalendar(host, view.plus({ months: 1 }), events);
+    host.querySelector("#next-month")?.addEventListener("click", () => {
+      renderCalendar(host, view.plus({ months: 1 }), events, basePath);
     });
 
-    // If there are zero events overall, hint in UI
     if (!events.length) {
-      const hint = document.createElement('div');
-      hint.className = 'muted';
-      hint.style.marginTop = '8px';
-      hint.textContent = 'No events found. Check pages/dashboard/calendar/index.json and event files.';
+      const hint = document.createElement("div");
+      hint.className = "muted";
+      hint.style.marginTop = "8px";
+      hint.textContent =
+        "No events found. Check your events folder and manifest.";
       host.appendChild(hint);
     }
   }
@@ -162,11 +175,11 @@ const Calendar = (() => {
     async render(selector, config = {}) {
       const host = document.querySelector(selector);
       if (!host) return;
-      const events = await loadEvents();
-      //document.querySelector(selector).insertAdjacentHTML('beforebegin', `<pre style="white-space:pre-wrap;opacity:.7">[debug] ${JSON.stringify(events, null, 2)}</pre>`);
-      const view = luxon.DateTime.local();
-      console.info('[Calendar] Loaded events:', events);
-      renderCalendar(host, view, events);
-    }
+
+      const basePath = config.basePath || "."; // "." from root, ".." from /calendar/
+      const events = await loadEvents(basePath);
+      const view = DateTime.local();
+      renderCalendar(host, view, events, basePath);
+    },
   };
-})();
+})();;

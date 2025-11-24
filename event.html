@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C.H.A.M.P. — Event</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🍄</div>
+      <div class="titles">
+        <h1>C.H.A.M.P.</h1>
+        <p>Event Details</p>
+      </div>
+    </div>
+    <nav class="site-nav">
+      <a href="/champ-site/">Frontpage</a>
+      <a href="/champ-site/calendar/">Calendar</a>
+    </nav>
+  </header>
+
+  <main class="event-detail-main">
+    <article class="card event-detail" id="event-detail">
+      <div class="muted">Loading event…</div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> C.H.A.M.P.</span>
+  </footer>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+  <script defer src="assets/js/event-detail.js"></script>
+</body>
+</html>
