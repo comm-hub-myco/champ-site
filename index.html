@@ -26,9 +26,9 @@
 
 
 <main id="app">
-<section id="frontpage" class="grid">
-<!-- Modules will be injected here by app.js following data/modules.json order -->
-</section>
+  <section id="frontpage" class="frontpage-grid">
+    <!-- Modules will be injected here -->
+  </section>
 </main>
 
 
@@ -40,7 +40,10 @@
 <script defer src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
 
 <script defer src="assets/js/app.js"></script>
-<script defer src="assets/js/modules/calendar.js"></script>
+<script defer src="assets/js/modules/calendar.js"></script> <!-- keep if you still use calendar page elsewhere -->
+<script defer src="assets/js/modules/events-grid.js"></script>
+<script defer src="assets/js/modules/news-grid.js"></script>
+<script defer src="assets/js/modules/links-grid.js"></script>
 <script defer src="assets/js/modules/proton-feed.js"></script>
 <script defer src="assets/js/modules/suggestion-box.js"></script>
 </body>

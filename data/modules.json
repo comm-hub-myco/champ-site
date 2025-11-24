@@ -1,3 +1,7 @@
 {
-"frontpage": ["calendar", "suggestion-box"]
+  "frontpage": [
+    "events-grid",
+    "news-grid",
+    "links-grid"
+  ]
 }
