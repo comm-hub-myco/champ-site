@@ -83,7 +83,6 @@ box-shadow: 0 10px 30px rgba(0,0,0,.25);
   }
 }
 
-
 /* Proton feed */
 .feed-list { display:flex; flex-direction:column; gap:10px; }
 .feed-item { background:var(--bg); border:1px solid var(--ring); border-radius:10px; padding:10px; }
