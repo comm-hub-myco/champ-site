@@ -83,7 +83,6 @@ box-shadow: 0 10px 30px rgba(0,0,0,.25);
   }
 }
 
-
 /* Proton feed */
 .feed-list { display:flex; flex-direction:column; gap:10px; }
 .feed-item { background:var(--bg); border:1px solid var(--ring); border-radius:10px; padding:10px; }
@@ -269,4 +268,75 @@ button.primary:hover { filter: brightness(1.1); }
 .link-card-desc {
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+.add-event-card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.add-event-form {
+  margin-top: 12px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-row label {
+  font-size: 0.9rem;
+}
+
+.form-row input,
+.form-row textarea {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--ring);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.form-row input:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-actions {
+  margin-top: 10px;
+}
+
+.form-actions button {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.form-actions button:hover {
+  opacity: 0.9;
+}
+
+.add-event-result {
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
+
+.add-event-result.success {
+  color: #8be38b;
+}
+
+.add-event-result.error {
+  color: #ff8a8a;
 }

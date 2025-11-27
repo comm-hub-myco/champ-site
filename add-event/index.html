@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C.H.A.M.P. — Add Event</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">🍄</div>
+      <div class="titles">
+        <h1>C.H.A.M.P.</h1>
+        <p>Submit a Community Event</p>
+      </div>
+    </div>
+    <nav class="site-nav">
+      <a href="/champ-site/">Frontpage</a>
+      <a href="/champ-site/calendar/">Calendar</a>
+      <a class="active" href="/champ-site/add-event/">Add Event</a>
+    </nav>
+  </header>
+
+  <main class="page-main">
+    <section class="card add-event-card">
+      <header class="front-section-header">
+        <h2>Add a New Event</h2>
+        <p class="muted">
+          Fill out this form to generate an event file. You (or a maintainer) can add it to the calendar.
+        </p>
+      </header>
+
+      <form id="add-event-form" class="add-event-form">
+        <div class="form-grid">
+          <div class="form-row">
+            <label for="title">Event Title<span aria-hidden="true">*</span></label>
+            <input id="title" name="title" type="text" required placeholder="Intro to Mushroom ID Walk" />
+          </div>
+
+          <div class="form-row">
+            <label for="date">Date<span aria-hidden="true">*</span></label>
+            <input id="date" name="date" type="date" required />
+          </div>
+
+          <div class="form-row">
+            <label for="time">Time</label>
+            <input id="time" name="time" type="time" />
+          </div>
+
+          <div class="form-row">
+            <label for="location">Location</label>
+            <input id="location" name="location" type="text" placeholder="Park, town, or online link" />
+          </div>
+
+          <div class="form-row">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" placeholder="What will happen, who is it for, what should people bring?"></textarea>
+          </div>
+
+          <div class="form-row">
+            <label for="link">External Link (RSVP, details)</label>
+            <input id="link" name="link" type="url" placeholder="https://..." />
+          </div>
+
+          <div class="form-row">
+            <label for="contact">Contact (optional)</label>
+            <input id="contact" name="contact" type="text" placeholder="Email, handle, or organizer name" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Generate Event File</button>
+        </div>
+
+        <div id="add-event-result" class="add-event-result muted"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> C.H.A.M.P.</span>
+  </footer>
+
+  <script defer src="../assets/js/add-event.js"></script>
+</body>
+</html>
