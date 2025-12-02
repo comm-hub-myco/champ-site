@@ -9,16 +9,17 @@
 <body>
   <header class="site-header">
     <div class="brand">
-      <div class="logo" aria-hidden="true">🍄</div>
+      <div class="logo">
+        <img src="../assets/images/CHAMP_logo_big.png" alt="C.H.A.M.P. Logo" />
+      </div>
       <div class="titles">
         <h1>C.H.A.M.P.</h1>
-        <p>Submit a Community Event</p>
+        <p>Create a New Calendar Event</p>
       </div>
     </div>
     <nav class="site-nav">
-      <a href="/champ-site/">Frontpage</a>
-      <a href="/champ-site/calendar/">Calendar</a>
-      <a class="active" href="/champ-site/add-event/">Add Event</a>
+      <a href="/champ-site/calendar/">Back to Calendar</a>
+      <a class="active" href="">Add Event</a>
     </nav>
   </header>
 
@@ -35,22 +36,22 @@
         <div class="form-grid">
           <div class="form-row">
             <label for="title">Event Title<span aria-hidden="true">*</span></label>
-            <input id="title" name="title" type="text" required placeholder="Intro to Mushroom ID Walk" />
+            <input id="title" name="title" type="text" required placeholder="The name of the event..." />
           </div>
 
           <div class="form-row">
             <label for="date">Date<span aria-hidden="true">*</span></label>
-            <input id="date" name="date" type="date" required />
+            <input id="date" name="date" type="date" required placeholder="YYYY-MM-DD" />
           </div>
 
           <div class="form-row">
             <label for="time">Time</label>
-            <input id="time" name="time" type="time" />
+            <input id="time" name="time" type="time" required placeholder="HH:mm AM/PM"/>
           </div>
 
           <div class="form-row">
             <label for="location">Location</label>
-            <input id="location" name="location" type="text" placeholder="Park, town, or online link" />
+            <input id="location" name="location" type="text" placeholder="Address, location, or online link..." />
           </div>
 
           <div class="form-row">
@@ -59,18 +60,18 @@
           </div>
 
           <div class="form-row">
-            <label for="link">External Link (RSVP, details)</label>
+            <label for="link">External Link - RSVP or Details</label>
             <input id="link" name="link" type="url" placeholder="https://..." />
           </div>
 
           <div class="form-row">
-            <label for="contact">Contact (optional)</label>
+            <label for="contact">Main Contact</label>
             <input id="contact" name="contact" type="text" placeholder="Email, handle, or organizer name" />
           </div>
         </div>
 
         <div class="form-actions">
-          <button type="submit">Generate Event File</button>
+          <button type="submit">Create Event</button>
         </div>
 
         <div id="add-event-result" class="add-event-result muted"></div>

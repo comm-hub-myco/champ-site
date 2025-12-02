@@ -142,8 +142,9 @@ window.Calendar = (() => {
         )}`;
         pill.target = "_self";
 
-        const t = ev.time ? ` @ ${ev.time}` : "";
-        pill.innerHTML = `<span class="t">${ev.title}${t}</span><br><span class="l">${
+        const ct = ev.time ? DateTime.fromFormat(ev.time, "HH:mm").toFormat("h:mm a") : "";
+        const t = ev.time ? `@ ${ct}` : "";
+        pill.innerHTML = `<span class="t">${ev.title}<br>${t}</span><br><span class="l">${
           ev.location || ""
         }</span>`;
         cell.appendChild(pill);
