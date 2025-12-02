@@ -48,7 +48,8 @@ window.EventsGrid = (() => {
         // parse date/time
         let dt = null;
         if (ev.date) {
-          const raw = ev.time ? `${ev.date} ${ev.time}` : ev.date;
+          const ct = ev.time ? DateTime.fromFormat(ev.time, "HH:mm").toFormat("h:mm a") : "";
+          const raw = ev.time ? `${ev.date} ${ct}` : ev.date;
           dt = DateTime.fromFormat(raw, 'yyyy-MM-dd HH:mm', { zone: 'local' });
           if (!dt.isValid) dt = DateTime.fromFormat(raw, 'yyyy-MM-dd', { zone: 'local' });
           if (!dt.isValid) dt = DateTime.fromISO(ev.date, { zone: 'local' });
