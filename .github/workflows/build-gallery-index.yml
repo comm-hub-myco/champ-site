@@ -1,0 +1,41 @@
+name: Build Gallery Index
+
+on:
+  push:
+    paths:
+      - "gallery/images/**"
+      - "gallery/meta/**"
+      - "scripts/build-gallery-index.js"
+
+jobs:
+  build-gallery-index:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build gallery index
+        run: node scripts/build-gallery-index.js
+
+      - name: Commit and push gallery index
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add gallery/index.json
+          git commit -m "Update gallery index [skip ci]"
+          git push

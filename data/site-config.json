@@ -7,5 +7,8 @@
 },
 "eventSubmission": {
 "endpoint": "https://champ-add-event.comm-hub-myco.workers.dev/add-event"
+},
+"gallerySubmission": {
+  "endpoint": "https://champ-gallery-worker.comm-hub-myco.workers.dev/add-gallery"
 }
 }

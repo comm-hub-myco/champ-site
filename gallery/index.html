@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>C.H.A.M.P. — Gallery</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo">
+        <img src="../assets/images/CHAMP_logo_big.png" alt="C.H.A.M.P. Logo" />
+      </div>
+      <div class="titles">
+        <h1>C.H.A.M.P.</h1>
+        <p>Fungal Photo Gallery</p>
+      </div>
+    </div>
+    <nav class="site-nav">
+      <a href="/champ-site/">Main</a>
+      <a class="active" href="/champ-site/gallery/">Gallery</a>
+      <a href="/champ-site/gallery/submit/">Submit a Photo</a>
+
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-pressed="false"
+        aria-label="Toggle dark mode"
+      >
+        <span class="theme-toggle-track">
+          <span class="theme-toggle-thumb"></span>
+        </span>
+        <span class="theme-toggle-label">Dark</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="page-main">
+    <section class="card">
+      <header class="front-section-header">
+        <h2>Community Gallery</h2>
+        <p class="muted">
+          A living archive of CHAMP forays, finds, and fungal art. Newest first.
+        </p>
+      </header>
+
+      <div id="gallery-grid" class="gallery-grid"></div>
+      <div id="gallery-status" class="status" style="margin-top: 8px;"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span id="year"></span> C.H.A.M.P.</span>
+  </footer>
+
+  <script defer src="../assets/js/theme-toggle.js"></script>
+  <script defer src="../assets/js/gallery.js"></script>
+</body>
+</html>
