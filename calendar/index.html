@@ -21,6 +21,18 @@
     <a href="/champ-site/">Back to Main</a>
     <a class="active" href="">Calendar</a>
     <a href="/champ-site/add-event/">Add Event</a>
+    <button
+    class="theme-toggle"
+    type="button"
+    data-theme-toggle
+    aria-pressed="false"
+    aria-label="Toggle dark mode"
+      >
+        <span class="theme-toggle-track">
+          <span class="theme-toggle-thumb"></span>
+        </span>
+        <span class="theme-toggle-label">Dark</span>
+      </button>
     </nav>
   </header>
 
@@ -43,6 +55,7 @@
   <!-- Same Luxon + calendar module you already use -->
   <script defer src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
   <script defer src="../assets/js/modules/calendar.js"></script>
+  <script defer src="../assets/js/theme-toggle.js"></script>
   <script defer>
   document.addEventListener('DOMContentLoaded', () => {
     const yearEl = document.getElementById('year');

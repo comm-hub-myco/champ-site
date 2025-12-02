@@ -31,6 +31,37 @@
   --dark: #161711;            /* deep background for some cards */
 }
 
+/* Dark theme overrides */
+:root[data-theme="dark"] {
+  /* Neutrals become spore-print charcoal & dark lab bench */
+  --bg: #171120;
+  --bg-alt: #19151c;
+  --panel: #18161a;
+  --panel-soft: #221c21;
+  --border-subtle: #303427;
+  --border-strong: #505742;
+  --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.6);
+
+  --text: #f3eee3;
+  --text-2: #806485;
+  --muted: #937c6e;
+
+  /* Earthy contrast—same hue family, flipped value */
+  --accent-soft: #dbc9af;
+  --accent-soft-bg: #26211b;
+  --accent-contrast: #4e6427;
+
+  /* Vibrant accents pop a bit more on dark */
+  --accent: #2e2039;
+  --accent-2: #4e3c62;
+  --accent-3: #5e0b15;  /* your deep wine stays */
+  --accent-4: #ffdc8a;
+  --accent-5: #f6a553;
+
+  --ring: #d4cfb0;
+  --dark: #0f0919;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -54,10 +85,11 @@ body {
 .site-header,
 .site-footer {
   padding: 16px clamp(12px, 4vw, 36px);
-  background: rgba(245, 241, 234, 0.96);
+  background-color: var(--bg);
   border-bottom: 1px solid var(--border-subtle);
   backdrop-filter: blur(8px);
 }
+
 
 .site-footer {
   border-top: 1px solid var(--border-subtle);
@@ -91,10 +123,15 @@ body {
 }
 
 @media (max-width: 600px) {
+  .logo {
+    width: 32px;
+    height: 32px;
+  }
+  
   .logo img {
     width: 32px;
     height: 32px;
-    border-radius:24px;
+    border-radius:48px;
   }
 }
 
@@ -140,6 +177,67 @@ body {
   background: #f0e5d4;
   transform: translateY(-1px);
 }
+
+/* Theme toggle flipper on nav */
+.theme-toggle {
+  margin-left: auto; /* pushes it to the right on the nav row */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--panel-soft);
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--muted);
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.1s ease, color 0.15s ease;
+}
+
+.theme-toggle:hover {
+  background: #e0d5c7;
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.theme-toggle-track {
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 1px;
+  box-sizing: border-box;
+}
+
+.theme-toggle-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+/* label text */
+.theme-toggle-label {
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Dark mode: thumb slides to the right & color shifts */
+:root[data-theme="dark"] .theme-toggle-thumb {
+  transform: translateX(14px);
+  background: var(--accent-4);
+}
+
+/* Slightly different label color in dark mode */
+:root[data-theme="dark"] .theme-toggle {
+  color: var(--text-2);
+}
+
 
 /* Generic card & grid */
 
