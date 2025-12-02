@@ -7,14 +7,18 @@ function formTemplate() {
 return `
 <form id="sb-form" class="form" novalidate>
 <label>
-<span class="text">How should members of C.H.A.M.P. share info? What communication platforms do you think work best?</span>
-<textarea name="message" rows="2" required placeholder="Enter a communication platform..."></textarea>
+<br></br>
+<span class="text" style="font-weight: bold;">(Optional) Community Discussion Topic:</span>
+<br></br>
+<span class="text" style="font-size: 1rem;">How should members of C.H.A.M.P. communicate? Do you prefer E-mail, Discord, Forums, or something else?</span>
+<br></br>
+<textarea name="message" rows="3" required placeholder="Type your suggestion here..."></textarea>
 </label>
 <label>
-<span class="text">(Optional) Your Name?</span>
-<input name="contact" type="text" placeholder="Your Name..." />
+<span class="text">(Optional) Your Name and Contact Info?</span>
+<input name="contact" type="text" placeholder="Your Name and Contact Info..." />
 </label>
-<button class="primary" type="submit">Submit</button>
+<button class="primary" type="submit">Submit Feedback</button>
 <div class="status" id="sb-status"></div>
 </form>
 `;
