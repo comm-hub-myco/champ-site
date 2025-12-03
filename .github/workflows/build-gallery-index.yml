@@ -26,7 +26,7 @@ jobs:
           node-version: "20"
 
       - name: Build gallery index
-        run: node ./gallery/scripts/build-gallery-index.js
+        run: node gallery/scripts/build-gallery-index.js
 
       - name: Commit and push gallery index
         run: |
