@@ -38,7 +38,26 @@
         imgWrap.className = 'gallery-item-img-wrap';
 
         const img = document.createElement('img');
-        img.src = `../${item.image}`; // e.g. gallery/images/xxx.jpg
+        const rawImage = item.image || '';
+        let src = rawImage;
+
+        // If image path is absolute (starts with http), leave it
+        if (!/^https?:\/\//.test(rawImage)) {
+        // If it starts with 'gallery/', we only need '../' from /gallery/index.html
+        if (rawImage.startsWith('gallery/')) {
+            src = `../${rawImage}`;
+        }
+        // If it starts with 'images/', it's already relative to /gallery/
+        else if (rawImage.startsWith('images/')) {
+            src = rawImage;
+        }
+        // Otherwise, treat it as a filename under /gallery/images/
+        else if (rawImage) {
+            src = `images/${rawImage}`;
+        }
+        }
+
+        img.src = src;
         img.alt = item.alt || item.description || 'Fungal image';
 
         imgWrap.appendChild(img);

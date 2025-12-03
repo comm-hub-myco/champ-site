@@ -1,5 +1,12 @@
 {
-    "images": [
-        
-    ]
+  "items": [
+    {
+      "id": "2025-12-02-20251203043544-second-draft-of-my-submission-for-the-champ-logo",
+      "image": "gallery/images/2025-12-02-20251203043544-second-draft-of-my-submission-for-the-champ-logo.png",
+      "description": "2nd Draft",
+      "tags": ["logo"],
+      "date": "2025-12-02",
+      "submitted_by": "Cody",
+    }
+  ]
 }
