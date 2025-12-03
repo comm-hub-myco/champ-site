@@ -6,6 +6,7 @@ on:
       - "./gallery/images/**"
       - "./gallery/meta/**"
       - "gallery/scripts/build-gallery-index.js"
+      - '.github/workflows/build-gallery-index.yml'
 
 jobs:
   build-gallery-index:
