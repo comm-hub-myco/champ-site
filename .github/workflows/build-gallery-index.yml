@@ -3,9 +3,9 @@ name: Build Gallery Index
 on:
   push:
     paths:
-      - "gallery/images/**"
-      - "gallery/meta/**"
-      - "gallery/scripts/build-gallery-index.js"
+      - "./gallery/images/**"
+      - "./gallery/meta/**"
+      - "./gallery/scripts/build-gallery-index.js"
 
 jobs:
   build-gallery-index:
@@ -26,7 +26,7 @@ jobs:
           node-version: "20"
 
       - name: Build gallery index
-        run: node scripts/build-gallery-index.js
+        run: node ./gallery/scripts/build-gallery-index.js
 
       - name: Commit and push gallery index
         run: |
