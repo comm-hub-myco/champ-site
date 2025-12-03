@@ -5,7 +5,7 @@ on:
     paths:
       - "./gallery/images/**"
       - "./gallery/meta/**"
-      - "gallery/scripts/build-gallery-index.js"
+      - "./gallery/scripts/build-gallery-index.js"
 
 jobs:
   build-gallery-index:
