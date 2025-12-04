@@ -1,6 +1,19 @@
 {
   "items": [
     {
+      "id": "2025-12-04-20251204042234-gyromitra-esculenta-var",
+      "image": "gallery/images/2025-12-04-20251204042234-gyromitra-esculenta-var.jpg",
+      "description": "Gyromitra esculenta var.",
+      "tags": [
+        "fungi",
+        "ascomycete",
+        "false morel"
+      ],
+      "date": "2025-12-04",
+      "submitted_by": "Jon Applefield",
+      "mime": "image/jpeg"
+    },
+    {
       "id": "2025-12-02-20251203034111-second-draft-of-my-submission-for-the-champ-logo",
       "image": "gallery/images/2025-12-02-20251203034111-second-draft-of-my-submission-for-the-champ-logo.png",
       "description": "Second draft of my submission for the CHAMP logo",
