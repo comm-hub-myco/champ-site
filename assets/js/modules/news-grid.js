@@ -50,7 +50,7 @@
 */
         const snippetEl = document.createElement('div');
         snippetEl.className = 'event-card-meta';
-        snippetEl.textContent = item.body || '';
+        snippetEl.textContent = item.skinnyBody || '';
 
         // Clickable: expand/collapse full snippet
         card.addEventListener('click', () => {
