@@ -1,18 +1,6 @@
 {
   "items": [
     {
-      "id": "19aea141b8a102bb",
-      "subject": "Summary of failures for Google Apps Script: CHAMP News Feed (test)",
-      "date": "12-04-25T10:56 AM",
-      "snippet": "Your script, CHAMP News Feed (test), has recently failed to finish successfully. A summary of the failure(s) is shown below. To configure the triggers for this script, or change your setting for recei",
-      "from": "noreply-apps-scripts-notifications@google.com",
-      "tags": [
-        "news",
-        "email"
-      ],
-      "skinnyBody": "Your script, CHAMP News Feed (test), has recently failed to finish successfully. A summary of the failure(s) is shown below. To configure the triggers for this script, or change your setting for receiving future failure notifications, click here. Summary: Error Message Count TypeError: Assignment to constant variable. 7 Start Function Error Message Trigger End 12/4/25 9:56:15 AM EST updateChampNewsFeed TypeError: Assignment to constant variable. time-based 12/4/25 9:56:16 AM EST 12/4/25 10:01:16 AM EST updateChampNewsFeed TypeError: Assignment to constant variable. time-based 12/4/25 10:01:17 AM EST 12/4/25 10:06:15 AM EST updateChampNewsFeed TypeError: Assignment to constant variable. time-based 12/4/25 10:06:17 AM EST 12/4/25 10:11:16 AM EST updateChampNewsFeed TypeError: Assignment to constant variable. time-based 12/4/25 10:11:17 AM EST 12/4/25 10:16:17 AM EST updateChampNewsFeed TypeError: Assignment to constant variable. time-based 12/4/25 10:16:18 AM EST 12/4/25 10:21:16 AM EST updateChampNewsFeed TypeError: Assignment to constant variable. time-based 12/4/25 10:21:18 AM EST 12/4/25 10:26:15 AM EST updateChampNewsFeed TypeError: Assignment to constant variable. time-based 12/4/25 10:26:17 AM EST Sincerely, Google Apps Script Need help? Visit the Google Apps Script documentation. Please do not reply to this message. (c) 2025 Google"
-    },
-    {
       "id": "19ae9e685fa52c19",
       "subject": "ANNOUNCEMENT TEST",
       "date": "12-04-25T10:07 AM",
