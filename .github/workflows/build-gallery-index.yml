@@ -2,11 +2,13 @@ name: Build Gallery Index
 
 on:
   push:
+    branches:
+      - main
     paths:
-      - "./gallery/images/**"
-      - "./gallery/meta/**"
+      - "gallery/**"
       - "gallery/scripts/build-gallery-index.js"
       - ".github/workflows/build-gallery-index.yml"
+  workflow_dispatch:
 jobs:
   build-gallery-index:
     runs-on: ubuntu-latest
