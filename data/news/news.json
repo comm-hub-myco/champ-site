@@ -1,11 +1,191 @@
 {
   "items": [
     {
+      "id": "19ae7b9bf0cc808c",
+      "subject": "Testing",
+      "date": "2025-12-03T23:58:05-05:00",
+      "snippet": "Testingtestingtesting test",
+      "from": "Agaricus Bisporus <comm.hub.myco@gmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ae5e94323c088f",
+      "subject": "Re: [comm-hub-myco/champ-site] Delete .github/workflows/build-gallery-index.yml (PR #68)",
+      "date": "2025-12-03T15:31:00-05:00",
+      "snippet": "Closed #68. -- Reply to this email directly or view it on GitHub: https://github.com/comm-hub-myco/champ-site/pull/68#event-21342216182 You are receiving this because you authored the thread. Message ID: <comm-hub-myco/champ-site/pull/68/issue_event/2134221618",
+      "from": "comm-hub-myco <notifications@github.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ae23fd09215f60",
+      "subject": "Re: [comm-hub-myco/champ-site] Fix path for build-gallery-index.js in workflow (PR #67)",
+      "date": "2025-12-02T22:27:04-05:00",
+      "snippet": "Merged #67 into feature/gallery-page. -- Reply to this email directly or view it on GitHub: https://github.com/comm-hub-myco/champ-site/pull/67#event-21321826288 You are receiving this because you authored the thread. Message ID: <comm-hub-myco/champ-site/pull",
+      "from": "comm-hub-myco <notifications@github.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ae049f8b9c7ac1",
+      "subject": "CHAMP Foray with Larry Millman @ Codman Woods, Lincoln, MA ? Sun, Dec 7 @ 11?am",
+      "date": "2025-12-02T13:18:46-05:00",
+      "snippet": "CHAMP?s Larry Millman leads a foray at Codman Woods this Sunday, Dec 7 @ 11 am. Discover rare species and diverse habitats! Sign up (maximum capacity = 12) ? observation only, no baskets: <https://comm-hub-myco.github.io/champ-site/event.html?id=2025-12-07-mil",
+      "from": "Jonathan Applefield <jonathan_applefield@hotmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ada651e5d17353",
+      "subject": "Re: Draft Email - CHAMP Foray with Larry Millman ? NEW TIME: this Sunday @ 11 AM - Lincoln, MA",
+      "date": "2025-12-01T09:50:43-05:00",
+      "snippet": "Hi everybody? I just texted Cody this, but Larry will do his walk this Sunday, 12/7 @ 11 am. On Nov 26, 2025, at 2:06 PM, Jonathan Applefield <jonathan_applefield@hotmail.com> wrote: Let?s do both? beta test the web but follow with email (with link to Web and ",
+      "from": "Jonathan Applefield <jonathan_applefield@hotmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ad5ad2fc2705b8",
+      "subject": "CHAMP Proposed Organization Structure",
+      "date": "2025-11-30T11:51:16-05:00",
+      "snippet": "Hi Cody, This is Sean from friendsgiving last week. I spoke to you briefly about your idea for a decentralized structure for CHAMP, and it was a pleasure meeting you! I reviewed your proposal just now and liked it overall, especially as it related to the ident",
+      "from": "Sean Johnson <seanjohnsonmakes@gmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
       "id": "19ac3abab4690697",
       "subject": "Re: [BasidiomyCody/champ-site] Adding Cloudflare worker (PR #1)",
       "date": "2025-11-26T23:56:38-05:00",
       "snippet": "@comm-hub-myco pushed 1 commit. 3c7c9fa6f1609cd5d5ce79cba1cacccbf5ff5737 Update style.css -- View it on GitHub: https://github.com/BasidiomyCody/champ-site/pull/1/files/f872d72c32838c12652abf0e1dee8fadae3862a1..3c7c9fa6f1609cd5d5ce79cba1cacccbf5ff5737 You are ",
       "from": "comm-hub-myco <notifications@github.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ac367293358446",
+      "subject": "Re: [comm-hub-myco/champ-site] Dev (PR #36)",
+      "date": "2025-11-26T22:41:48-05:00",
+      "snippet": "Merged #36 into dev. -- Reply to this email directly or view it on GitHub: https://github.com/comm-hub-myco/champ-site/pull/36#event-21209533527 You are receiving this because you authored the thread. Message ID: <comm-hub-myco/champ-site/pull/36/issue_event/2",
+      "from": "comm-hub-myco <notifications@github.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ac35ff8d4da5b2",
+      "subject": "Re: [comm-hub-myco/champ-site] Updating events (PR #35)",
+      "date": "2025-11-26T22:33:57-05:00",
+      "snippet": "Merged #35 into main. -- Reply to this email directly or view it on GitHub: https://github.com/comm-hub-myco/champ-site/pull/35#event-21209465421 You are receiving this because you authored the thread. Message ID: <comm-hub-myco/champ-site/pull/35/issue_event/",
+      "from": "comm-hub-myco <notifications@github.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19abe532e42e733c",
+      "subject": "Draft Email - CHAMP Foray with Larry Millman ? Sunday, Dec 7, 1:30 PM, Lincoln, MA (or Sat., 12/6)",
+      "date": "2025-11-25T23:01:51-05:00",
+      "snippet": "Hi Jula, Ari, and Cody: I wanted to send this to you, not the whole group. Larry has offered to lead a CHAMP foray on Sunday, Dec 7 at 1:30 PM in Lincoln, MA. He?s open to offering Saturday, Dec 6 at 1:30 PM if that would increase participation, but if that?ll",
+      "from": "Jonathan Applefield <jonathan_applefield@hotmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ab836e65bd5ea0",
+      "subject": "[CHAMP] On the matter of a website and \"constitution\"...",
+      "date": "2025-11-24T19:47:27-05:00",
+      "snippet": "Hey CHAMPs, I had a great time at the Friendsgiving last night- some great food and great conversation! As promised, I have a bootstrapped website set up for event reminders and important links (hopefully with news updates and more coming soon). Here's the lin",
+      "from": "BasidiomyCody <basidiomycody@gmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ab83cde0e60efb",
+      "subject": "Live link to: CHAMP Friendsgiving Potluck 2025: Table Notes",
+      "date": "2025-11-24T18:39:40-05:00",
+      "snippet": "Hi all, See a recap and photos of our weekend events here - live link: CHAMP Friendsgiving Potluck 2025: Table Notes<https://docs.google.com/document/d/12LlJF28Dy2HW5zsaX1XfRtjXkuReddFks4hYmYhabYk/edit?usp=drivesdk> We?re a non-hierarchical organization ? in a",
+      "from": "Jonathan Applefield <jonathan_applefield@hotmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ab82f7254e7ae1",
+      "subject": "CHAMP Friendsgiving Potluck 2025: Table Notes",
+      "date": "2025-11-24T18:24:57-05:00",
+      "snippet": "Hi all, See a recap and photos of our weekend events here: CHAMP Friendsgiving Potluck 2025: Table Notes<file:///YOUR_LINK_HERE> We?re a non-hierarchical organization ? in anthropology, such structures are called acephalous societies, literally headless. And y",
+      "from": "Jonathan Applefield <jonathan_applefield@hotmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19ab81f55244dfbc",
+      "subject": "Re: [comm-hub-myco/champ-site] Fixing Accidental push to alt acct (PR #34)",
+      "date": "2025-11-24T18:07:31-05:00",
+      "snippet": "Merged #34 into main. -- Reply to this email directly or view it on GitHub: https://github.com/comm-hub-myco/champ-site/pull/34#event-21150948115 You are receiving this because you authored the thread. Message ID: <comm-hub-myco/champ-site/pull/34/issue_event/",
+      "from": "comm-hub-myco <notifications@github.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19a85ee3d362d7a6",
+      "subject": "Re: Share request for \"CHAMP Meeting -10-17-25\"",
+      "date": "2025-11-15T00:12:22-05:00",
+      "snippet": "All set On Nov 14, 2025, at 9:25 PM, BasidiomyCody (via Google Docs) <drive-shares-dm-noreply@google.com> wrote: Share a document? [image: Header profile photo] BasidiomyCody (basidiomycody@gmail.com) is *requesting access* to the following document: CHAMP Mee",
+      "from": "Jonathan Applefield <jda3@caa.columbia.edu>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19a85ed7d85f1716",
+      "subject": "Document shared with you: \"CHAMP Meeting -10-17-25\"",
+      "date": "2025-11-15T00:12:04-05:00",
+      "snippet": "I've shared an item with you: CHAMP Meeting -10-17-25 https://docs.google.com/document/d/11lADCB9bFD4vD4SnSDupXL7S__kaE-7kQYEsD8fPpB4/edit?usp=sharing&ts=69180ba4 It's not an attachment -- it's stored online. To open this item, just click the link above.",
+      "from": "\"Jonathan Applefield (via Google Docs)\" <drive-shares-dm-noreply@google.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19a4fc040b45dda4",
+      "subject": "CHAMP Friendsgiving Invitation - Sun. 11/23 @ 4 p",
+      "date": "2025-11-04T11:42:57-05:00",
+      "snippet": "Hey Y'all! We?re thrilled to be gaining momentum ? and to kick off the establishment of the Community Hub for Actualization of Mycological Passion (CHAMPions), we?re organizing a Friendsgiving Dinner 2025. When: Sunday, November 23 at 4 PM Location: Jula?s apa",
+      "from": "CommunityMycology <CommunityMycology@proton.me>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "19a4945d6e0b1ec6",
+      "subject": "CHAMP Friendsgiving Invitation - Sun. 11/23 @ 4 p",
+      "date": "2025-11-03T05:31:43-05:00",
+      "snippet": "Hey Cody and Jula, Our budding group is hosting a Friendsgiving potluck feast on Sunday, Nov 23 at 4 PM, and I?d love to get the invitation out in the next day or two. Cody ? could we use your logo in whatever it?s current form or could you add a splash of des",
+      "from": "Jonathan Applefield <jonathan_applefield@hotmail.com>",
+      "tags": [
+        "news"
+      ]
+    },
+    {
+      "id": "199fc73c377c67b5",
+      "subject": "Spreadsheet shared with you: \"CHAMP Community Mycology Directory\"",
+      "date": "2025-10-19T08:31:08-04:00",
+      "snippet": "I've shared an item with you: CHAMP Community Mycology Directory https://docs.google.com/spreadsheets/d/1eDgHEFcqv6ZFrzvurP0dLvN0ZE348OF1Ub8GP8KivdE/edit?usp=sharing&ts=68f4da0c It's not an attachment -- it's stored online. To open this item, just click the li",
+      "from": "\"Julian Moll-Rocek (via Google Sheets)\" <drive-shares-dm-noreply@google.com>",
       "tags": [
         "news"
       ]
