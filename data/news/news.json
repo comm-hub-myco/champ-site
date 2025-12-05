@@ -1,3 +1,16 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "19aecd16be74e69d",
+      "subject": "[CHAMP: News] THE NEWS FEED IS NOW WORKING!",
+      "date": "2025-12-04T23:42:06-05:00",
+      "snippet": "Simply email <comm.hub.myco@gmail.com> anything newsworthy! Include \"[CHAMP: News]\" in the subject line to automatically post the email on the CHAMP website's news feed. Keep the rest of the group up ",
+      "from": "BasidiomyCody <basidiomycody@gmail.com>",
+      "tags": [
+        "news",
+        "email"
+      ],
+      "skinnyBody": "Simply email <comm.hub.myco@gmail.com> anything newsworthy! Include \"[CHAMP: News]\" in the subject line to automatically post the email on the CHAMP website's news feed. Keep the rest of the group up to date with ease! -Cody"
+    }
+  ]
 }
