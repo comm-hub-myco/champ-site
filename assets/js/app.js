@@ -36,12 +36,12 @@ const App = {
         el.innerHTML = `
           <header class="front-section-header">
             <h2>News</h2>
-            <p class="muted">Announcements, summaries, and project updates</p>
+            <p class="muted">Latest updates tagged with "[CHAMP: News]" from the community inbox.</p>
           </header>
-          <div id="news-grid"></div>
+          <div id="news-grid" class="events-grid"></div>
+          <div id="news-status" class="status" style="margin-top: 8px;"></div>
         `;
         host.appendChild(el);
-        NewsGrid.render('#news-grid', this.config.news || {});
       }
 
       if (mod === 'links-grid') {

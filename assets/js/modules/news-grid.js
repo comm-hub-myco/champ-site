@@ -1,91 +1,125 @@
 (function () {
-  const container = document.getElementById('news-grid');
-  const statusEl = document.getElementById('news-status');
-  if (!container) return;
+  function initNews() {
+    const container = document.getElementById('news-grid');
+    const statusEl = document.getElementById('news-status');
 
-  function setStatus(msg) {
-    if (!statusEl) return;
-    statusEl.textContent = msg || '';
-  }
+    if (!container) {
+      console.warn('[CHAMP news] #news-grid not found in DOM yet.');
+      return false;
+    }
 
-  async function loadNews() {
-    try {
-      setStatus('Loading news...');
-      const res = await fetch('data/news/news.json'); // from site root
-      if (!res.ok) {
-        setStatus('No news feed available yet.');
-        return;
-      }
-      const data = await res.json();
-      const items = Array.isArray(data.items) ? data.items : [];
+    function setStatus(msg) {
+      if (!statusEl) return;
+      statusEl.textContent = msg || '';
+    }
 
-      if (!items.length) {
-        setStatus('No news items yet.');
-        return;
-      }
+    async function loadNews() {
+      try {
+        setStatus('Loading news...');
+        // Adjust this path if your frontpage is not at repo root
+        const res = await fetch('data/news/news.json');
 
-      // newest first just in case
-      items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        if (!res.ok) {
+          console.warn('[CHAMP news] news.json fetch failed:', res.status);
+          setStatus('No news feed available yet.');
+          return;
+        }
 
-      container.innerHTML = '';
+        const data = await res.json();
+        const items = Array.isArray(data.items) ? data.items : [];
 
-      items.slice(0, 10).forEach((item) => {
-        const card = document.createElement('article');
-        card.className = 'event-card'; // reuse styling
+        if (!items.length) {
+          setStatus('No news items yet.');
+          return;
+        }
 
-        const body = document.createElement('div');
-        body.className = 'event-card-body';
+        // Sort newest first
+        items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
-        const dateEl = document.createElement('div');
-        dateEl.className = 'event-card-date';
-        dateEl.textContent = item.date ? new Date(item.date).toLocaleString() : '';
+        container.innerHTML = '';
 
-        const titleEl = document.createElement('h3');
-        titleEl.className = 'event-card-title';
-        titleEl.textContent = item.subject || '(no subject)';
+        items.slice(0, 10).forEach((item) => {
+          const card = document.createElement('article');
+          card.className = 'event-card'; // reuse event card styling
 
-        const metaEl = document.createElement('div');
-        metaEl.className = 'event-card-meta';
-        metaEl.textContent = item.from || '';
-        
-        const snippetEl = document.createElement('div');
-        snippetEl.className = 'event-card-meta';
-        snippetEl.textContent = item.snippet || '';
+          const thumb = document.createElement('div');
+          thumb.className = 'event-card-thumb';
+          thumb.innerHTML = '<span>📰</span>';
 
-        // Clickable: expand/collapse full snippet
-        card.addEventListener('click', () => {
-          card.classList.toggle('expanded');
-          if (card.classList.contains('expanded')) {
-            snippetEl.style.whiteSpace = 'normal';
-          } else {
-            snippetEl.style.whiteSpace = 'nowrap';
-            snippetEl.style.textOverflow = 'ellipsis';
-            snippetEl.style.overflow = 'hidden';
-          }
+          const body = document.createElement('div');
+          body.className = 'event-card-body';
+
+          const dateEl = document.createElement('div');
+          dateEl.className = 'event-card-date';
+          dateEl.textContent = item.date
+            ? new Date(item.date).toLocaleString()
+            : '';
+
+          const titleEl = document.createElement('h3');
+          titleEl.className = 'event-card-title';
+          titleEl.textContent = item.subject || '(no subject)';
+
+          const metaEl = document.createElement('div');
+          metaEl.className = 'event-card-meta';
+          metaEl.textContent = item.from || '';
+
+          const snippetEl = document.createElement('div');
+          snippetEl.className = 'event-card-meta';
+          snippetEl.textContent = item.skinnyBody || '';
+
+          // Simple expand/collapse behavior
+          snippetEl.style.whiteSpace = 'nowrap';
+          snippetEl.style.overflow = 'hidden';
+          snippetEl.style.textOverflow = 'ellipsis';
+
+          card.addEventListener('click', () => {
+            const expanded = card.classList.toggle('expanded');
+            if (expanded) {
+              snippetEl.style.whiteSpace = 'normal';
+              snippetEl.style.overflow = 'visible';
+              snippetEl.style.textOverflow = 'clip';
+            } else {
+              snippetEl.style.whiteSpace = 'nowrap';
+              snippetEl.style.overflow = 'hidden';
+              snippetEl.style.textOverflow = 'ellipsis';
+            }
+          });
+
+          body.appendChild(dateEl);
+          body.appendChild(titleEl);
+          if (item.from) body.appendChild(metaEl);
+          body.appendChild(snippetEl);
+
+          card.appendChild(thumb);
+          card.appendChild(body);
+          container.appendChild(card);
         });
 
-        body.appendChild(dateEl);
-        body.appendChild(titleEl);
-        if (item.from) body.appendChild(metaEl);
-        body.appendChild(snippetEl);
-
-        // simple thumbnail marker on the left to differentiate from events
-        const thumb = document.createElement('div');
-        thumb.className = 'event-card-thumb';
-        thumb.innerHTML = '<span>📰</span>';
-
-        card.appendChild(thumb);
-        card.appendChild(body);
-        container.appendChild(card);
-      });
-
-      setStatus('');
-    } catch (err) {
-      console.error(err);
-      setStatus('Error loading news. Please try again later.');
+        setStatus('');
+      } catch (err) {
+        console.error('[CHAMP news] Error loading news:', err);
+        setStatus('Error loading news. Please try again later.');
+      }
     }
+
+    loadNews();
+    return true;
   }
 
-  loadNews();
-})();
+  // Try once on DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const ok = initNews();
+    if (ok) return;
 
+    // If the Proton feed module injects HTML after DOMContentLoaded,
+    // poll a few times for #news-grid to appear.
+    let attempts = 0;
+    const maxAttempts = 10;
+    const interval = setInterval(() => {
+      attempts++;
+      if (initNews() || attempts >= maxAttempts) {
+        clearInterval(interval);
+      }
+    }, 300);
+  });
+})();
