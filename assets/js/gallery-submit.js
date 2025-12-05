@@ -16,7 +16,7 @@
     'image/gif',
     'image/webp',
     'image/heic',
-    'image/heif',
+    'image/heif'
   ];
 
   function setStatus(msg, type) {
