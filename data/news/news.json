@@ -1,18 +1,6 @@
 {
   "items": [
     {
-      "id": "19aecabe2f4b0a38",
-      "subject": "Summary of failures for Google Apps Script: CHAMP News Feed (test)",
-      "date": "2025-12-04T23:01:18-05:00",
-      "snippet": "Your script, CHAMP News Feed (test), has recently failed to finish successfully. A summary of the failure(s) is shown below. To configure the triggers for this script, or change your setting for recei",
-      "from": "noreply-apps-scripts-notifications@google.com",
-      "tags": [
-        "news",
-        "email"
-      ],
-      "skinnyBody": "Your script, CHAMP News Feed (test), has recently failed to finish successfully. A summary of the failure(s) is shown below. To configure the triggers for this script, or change your setting for receiving future failure notifications, click here. Summary: Error Message Count ReferenceError: rawSubject is not defined 12 Start Function Error Message Trigger End 12/4/25 10:01:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:01:18 PM EST 12/4/25 10:06:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:06:18 PM EST 12/4/25 10:11:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:11:19 PM EST 12/4/25 10:16:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:16:18 PM EST 12/4/25 10:21:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:21:18 PM EST 12/4/25 10:26:15 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:26:17 PM EST 12/4/25 10:31:16 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:31:17 PM EST 12/4/25 10:36:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:36:18 PM EST 12/4/25 10:41:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:41:18 PM EST 12/4/25 10:46:16 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:46:18 PM EST 12/4/25 10:51:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:51:18 PM EST 12/4/25 10:56:17 PM EST updateChampNewsFeed ReferenceError: rawSubject is not defined time-based 12/4/25 10:56:18 PM EST Sincerely, Google Apps Script Need help? Visit the Google Apps Script documentation. Please do not reply to this message. (c) 2025 Google"
-    },
-    {
       "id": "19ae9e685fa52c19",
       "subject": "[CHAMP: News] ANNOUNCEMENT TEST",
       "date": "2025-12-04T10:07:03-05:00",
