@@ -105,7 +105,7 @@
       return;
     }
 
-    if (!ALLOWED_TYPES.includes(file.type)) {
+    if (!ALLOWED_TYPES.includes(file.type.toLowerCase())) {
       setStatus(
         'Unsupported file type. Please use JPG, PNG, GIF, WebP, HEIC, or HEIF.',
         'error'
@@ -179,7 +179,7 @@
           id,
           base64,
           ext,
-          mime: file.type,
+          mime: file.type.toLowerCase(),
           description,
           tags,
           date: isoDate,
