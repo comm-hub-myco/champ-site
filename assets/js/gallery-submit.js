@@ -162,7 +162,7 @@
 
     try {
       const base64 = await fileToBase64(file);
-      const ext = getExtension(file.type);
+      const ext = getExtension(file.type.toLowerCase());
 
       const now = new Date();
       const isoDate = date || now.toISOString().slice(0, 10);
@@ -179,7 +179,7 @@
           id,
           base64,
           ext,
-          mime: file.type.toLowerCase(),
+          mime,
           description,
           tags,
           date: isoDate,
