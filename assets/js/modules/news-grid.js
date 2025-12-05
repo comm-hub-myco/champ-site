@@ -1,4 +1,20 @@
 (function () {
+  function typeLabel(type) {
+    switch (type) {
+      case 'event':
+        return 'Event';
+      case 'friends':
+        return 'Friends';
+      case 'question':
+        return 'Question';
+      case 'poll':
+        return 'Poll';
+      case 'news':
+      default:
+        return 'News';
+    }
+  }
+
   function initNews() {
     const container = document.getElementById('news-grid');
     const statusEl = document.getElementById('news-status');
@@ -16,7 +32,6 @@
     async function loadNews() {
       try {
         setStatus('Loading news...');
-        // Adjust this path if your frontpage is not at repo root
         const res = await fetch('data/news/news.json');
 
         if (!res.ok) {
@@ -39,15 +54,31 @@
         container.innerHTML = '';
 
         items.slice(0, 10).forEach((item) => {
+          const type = item.type || 'news';
+
           const card = document.createElement('article');
-          card.className = 'event-card'; // reuse event card styling
+          card.className = `event-card news-card news-type-${type}`; // reuse event card styling
 
           const thumb = document.createElement('div');
           thumb.className = 'event-card-thumb';
-          thumb.innerHTML = '<span>📰</span>';
+
+          if (item.thumbnail) {
+            const img = document.createElement('img');
+            // frontpage is repo root, thumbnail is 'gallery/images/...'
+            img.src = item.thumbnail;
+            img.alt = item.subject || 'News image';
+            thumb.appendChild(img);
+          } else {
+            thumb.innerHTML = '<span>📰</span>';
+          }
 
           const body = document.createElement('div');
           body.className = 'event-card-body';
+
+          // Type tag pill
+          const tag = document.createElement('span');
+          tag.className = `news-tag news-tag-${type}`;
+          tag.textContent = typeLabel(type);
 
           const dateEl = document.createElement('div');
           dateEl.className = 'event-card-date';
@@ -65,7 +96,7 @@
 
           const snippetEl = document.createElement('div');
           snippetEl.className = 'event-card-meta';
-          snippetEl.textContent = item.skinnyBody || '';
+          snippetEl.textContent = item.skinnyBody || item.snippet || '';
 
           // Simple expand/collapse behavior
           snippetEl.style.whiteSpace = 'nowrap';
@@ -85,8 +116,8 @@
             }
           });
 
+          body.appendChild(tag);
           body.appendChild(dateEl);
-          body.appendChild(titleEl);
           if (item.from) body.appendChild(metaEl);
           body.appendChild(snippetEl);
 

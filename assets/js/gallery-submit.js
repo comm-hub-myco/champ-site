@@ -6,14 +6,17 @@
   const resultEl = document.getElementById('gallery-submit-result');
   if (!form) return;
 
-  const MAX_BYTES = 4 * 1024 * 1024; // 4MB
-  const MIN_RATIO = 0.5;  // h/w between 0.5 and 2 -> roughly not skinnier than 2:1
-  const MAX_RATIO = 2.0;
+  const MAX_BYTES = 5 * 1024 * 1024; // 5MB
+  const MIN_RATIO = 0.45;  // h/w between 0.5 and 2 -> roughly not skinnier than 2:1
+  const MAX_RATIO = 2.25;
   const ALLOWED_TYPES = [
     'image/jpeg',
     'image/jpg',
     'image/png',
-    'image/webp'
+    'image/gif',
+    'image/webp',
+    'image/heic',
+    'image/heif',
   ];
 
   function setStatus(msg, type) {
@@ -44,8 +47,14 @@
         return 'jpg';
       case 'image/png':
         return 'png';
+      case 'image/gif':
+        return 'gif';
       case 'image/webp':
         return 'webp';
+      case 'image/heic':
+        return 'heic';
+      case 'image/heif':
+        return 'heif';
       default:
         return 'bin';
     }
@@ -98,14 +107,14 @@
 
     if (!ALLOWED_TYPES.includes(file.type)) {
       setStatus(
-        'Unsupported file type. Please use JPG, PNG, or WebP.',
+        'Unsupported file type. Please use JPG, PNG, GIF, WebP, HEIC, or HEIF.',
         'error'
       );
       return;
     }
 
     if (file.size > MAX_BYTES) {
-      setStatus('File is too large. Please keep it under 4 MB.', 'error');
+      setStatus('File is too large. Please keep it under 5 MB.', 'error');
       return;
     }
 
@@ -143,7 +152,7 @@
     let config = await readConfig();
     if (!config || !config.gallerySubmission || !config.gallerySubmission.endpoint) {
       setStatus(
-        'Gallery submission endpoint is not configured. Please contact the admins.',
+        'Gallery submission endpoint is not configured. Please contact the <BasidiomyCody@gmail.com>.',
         'error'
       );
       return;
@@ -198,7 +207,7 @@
       }
 
       setStatus(
-        'Thank you! Your photo was submitted and should appear in the gallery after the next site update.',
+        'Success! Your photo was submitted to the gallery and should appear after processing.',
         'success'
       );
       form.reset();
