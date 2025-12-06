@@ -1,15 +1,32 @@
 {
   "items": [
     {
+      "id": "19af4577edb0c3b6",
+      "subject": "[CHAMP: News] Reminder: Larry Millman?s walk @ 11 AM Sunday",
+      "date": "2025-12-06T10:45:52-05:00",
+      "thumbnail": null,
+      "snippet": "*Not all fungi head to Florida for the winter!* RSVP <https://comm-hub-myco.github.io/champ-site/>. Join Larry Millman <https://comm-hub-myco.github.io/champ-site/> @ Codman Woods - Lincoln, MA <https",
+      "from": "BasidiomyCody <basidiomycody@gmail.com>",
+      "type": "news",
+      "tags": [
+        "news",
+        "email",
+        "news"
+      ],
+      "skinnyBody": "*Not all fungi head to Florida for the winter!* RSVP <https://comm-hub-myco.github.io/champ-site/>. Join Larry Millman <https://comm-hub-myco.github.io/champ-site/> @ Codman Woods - Lincoln, MA <https://lincolnconservation.org/tws_holding/codman/>. Sunday @ 11:00 AM. Parking at Donelan's Supermarket - 145 Lincoln Road, Lincoln, MA 01773 <https://www.google.com/maps/search/145+Lincoln+Road,+Lincoln,+MA+01773?entry=gmail&source=g> . *C.H.A. <https://comm-hub-myco.github.io/champ-site/>**M.P. <https://comm-hub-myco.github.io/champ-site/>* *Community Hub for Actualizing Mycological Passion*"
+    },
+    {
       "id": "19aecd16be74e69d",
       "subject": "[CHAMP: News] THE NEWS FEED IS NOW WORKING!",
       "date": "2025-12-04T23:42:06-05:00",
-      "thumbnail": "gallery/images/2025-12-02-20251203034111-second-draft-of-my-submission-for-the-champ-logo.png",
+      "thumbnail": null,
       "snippet": "Simply email <comm.hub.myco@gmail.com> anything newsworthy! Include \"[CHAMP: News]\" in the subject line to automatically post the email on the CHAMP website's news feed. Keep the rest of the group up ",
       "from": "BasidiomyCody <basidiomycody@gmail.com>",
+      "type": "news",
       "tags": [
         "news",
-        "email"
+        "email",
+        "news"
       ],
       "skinnyBody": "Simply email <comm.hub.myco@gmail.com> anything newsworthy! Include \"[CHAMP: News]\" in the subject line to automatically post the email on the CHAMP website's news feed. Keep the rest of the group up to date with ease! -Cody"
     }
