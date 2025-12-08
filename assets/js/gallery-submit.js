@@ -41,7 +41,7 @@
   }
 
   function getExtension(mime) {
-    switch (mime) {
+    switch (mime.toLowerCase()) {
       case 'image/jpeg':
       case 'image/jpg':
         return 'jpg';
@@ -52,12 +52,27 @@
       case 'image/webp':
         return 'webp';
       case 'image/heic':
-        return 'heic';
       case 'image/heif':
-        return 'heif';
+        return 'heic';
       default:
         return 'bin';
     }
+  }
+
+
+  function isHeicLike(file) {
+    const type = (file.type || '').toLowerCase();
+    const name = file.name || '';
+    const ext = name.includes('.') ? name.split('.').pop().toLowerCase() : '';
+
+    return (
+      type === 'image/heic' ||
+      type === 'image/heif' ||
+      type.startsWith('image/heic') ||
+      type.startsWith('image/heif') ||
+      ext === 'heic' ||
+      ext === 'heif'
+    );
   }
 
   function fileToBase64(file) {
@@ -105,7 +120,7 @@
       return;
     }
 
-    if (!ALLOWED_TYPES.includes(file.type.toLowerCase())) {
+    if (!ALLOWED_TYPES.includes(mime) && !heicLike) {
       setStatus(
         'Unsupported file type. Please use JPG, PNG, GIF, WebP, HEIC, or HEIF.',
         'error'
@@ -119,24 +134,28 @@
     }
 
     // Dimension & ratio check
-    try {
-      const { width, height } = await getImageDimensions(file);
-      if (!width || !height) {
-        setStatus('Could not determine image dimensions.', 'error');
+    const mime = (file.type || '').toLowerCase();
+    const heicLike = isHeicLike(file);
+    if (!heicLike) {
+      try {
+        const { width, height } = await getImageDimensions(file);
+        if (!width || !height) {
+          setStatus('Could not determine image dimensions.', 'error');
+          return;
+        }
+        const ratio = width / height;
+        if (ratio < MIN_RATIO || ratio > MAX_RATIO) {
+          setStatus(
+            'Image aspect ratio is too extreme. Please avoid very tall or ultra-wide panoramas.',
+            'error'
+          );
+          return;
+        }
+      } catch (err) {
+        console.warn(err);
+        setStatus('Could not read image dimensions.', 'error');
         return;
       }
-      const ratio = width / height;
-      if (ratio < MIN_RATIO || ratio > MAX_RATIO) {
-        setStatus(
-          'Image aspect ratio is too extreme. Please avoid very tall or ultra-wide panoramas.',
-          'error'
-        );
-        return;
-      }
-    } catch (err) {
-      console.warn(err);
-      setStatus('Could not read image dimensions.', 'error');
-      return;
     }
 
     const name = fd.get('name')?.toString().trim() || '';
@@ -162,7 +181,9 @@
 
     try {
       const base64 = await fileToBase64(file);
-      const ext = getExtension(file.type.toLowerCase());
+      const ext = getExtension(file.type);
+      const mime = (file.type || '').toLowerCase();
+      const heicLike = isHeicLike(file);
 
       const now = new Date();
       const isoDate = date || now.toISOString().slice(0, 10);
