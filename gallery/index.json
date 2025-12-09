@@ -38,6 +38,19 @@
       "date": "2025-11-23",
       "submitted_by": "Cody Crossley",
       "mime": "image/jpeg"
+    },
+    {
+      "id": "2025-10-17-20251209144622-first-meeting-of-champ",
+      "image": "gallery/images/2025-10-17-20251209144622-first-meeting-of-champ.heic",
+      "description": "First meeting of CHAMP!",
+      "tags": [
+        "logo",
+        "champ",
+        "admin"
+      ],
+      "date": "2025-10-17",
+      "submitted_by": "Jon Applefield",
+      "mime": ""
     }
   ]
 }
