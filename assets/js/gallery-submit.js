@@ -134,7 +134,6 @@
     }
 
     // Dimension & ratio check
-    const mime = (file.type || '').toLowerCase();
     const heicLike = isHeicLike(file);
     if (!heicLike) {
       try {
@@ -183,7 +182,6 @@
       const base64 = await fileToBase64(file);
       const ext = getExtension(file.type);
       const mime = (file.type || '').toLowerCase();
-      const heicLike = isHeicLike(file);
 
       const now = new Date();
       const isoDate = date || now.toISOString().slice(0, 10);
