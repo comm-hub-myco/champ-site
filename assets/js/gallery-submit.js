@@ -114,6 +114,8 @@
 
     const fd = new FormData(form);
     const file = fd.get('photo');
+    const mime = (file.type || '').toLowerCase();
+    const heicLike = isHeicLike(file);
 
     if (!file || !file.size) {
       setStatus('Please select an image to upload.', 'error');
@@ -134,7 +136,6 @@
     }
 
     // Dimension & ratio check
-    const heicLike = isHeicLike(file);
     if (!heicLike) {
       try {
         const { width, height } = await getImageDimensions(file);
@@ -181,7 +182,6 @@
     try {
       const base64 = await fileToBase64(file);
       const ext = getExtension(file.type);
-      const mime = (file.type || '').toLowerCase();
 
       const now = new Date();
       const isoDate = date || now.toISOString().slice(0, 10);
