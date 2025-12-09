@@ -40,24 +40,45 @@
       .substring(0, 48) || 'image';
   }
 
-  function getExtension(mime) {
-    switch (mime.toLowerCase()) {
-      case 'image/jpeg':
-      case 'image/jpg':
+  function getExtension(mime, name) {
+  const m = (mime || '').toLowerCase();
+  const n = name || '';
+
+  switch (m) {
+    case 'image/jpeg':
+    case 'image/jpg':
+      return 'jpg';
+    case 'image/png':
+      return 'png';
+    case 'image/gif':
+      return 'gif';
+    case 'image/webp':
+      return 'webp';
+    case 'image/heic':
+    case 'image/heif':
+      return 'heic';
+  }
+  // Fallback: infer from file name extension
+  if (n) {
+    const ext = n.includes('.') ? n.split('.').pop().toLowerCase() : '';
+    switch (ext) {
+      case 'jpeg':
+      case 'jpg':
         return 'jpg';
-      case 'image/png':
+      case 'png':
         return 'png';
-      case 'image/gif':
+      case 'gif':
         return 'gif';
-      case 'image/webp':
+      case 'webp':
         return 'webp';
-      case 'image/heic':
-      case 'image/heif':
+      case 'heic':
+      case 'heif':
         return 'heic';
-      default:
-        return 'bin';
     }
   }
+
+  return 'bin';
+}
 
 
   function isHeicLike(file) {
@@ -181,7 +202,8 @@
 
     try {
       const base64 = await fileToBase64(file);
-      const ext = getExtension(file.type);
+      const ext = getExtension(mime, file.name || '');
+
 
       const now = new Date();
       const isoDate = date || now.toISOString().slice(0, 10);
