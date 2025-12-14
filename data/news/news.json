@@ -1,26 +1,26 @@
 {
   "items": [
     {
-      "id": "19af4577edb0c3b6",
-      "subject": "[CHAMP: News] Reminder: Larry Millman?s walk @ 11 AM Sunday",
-      "date": "2025-12-06T10:45:52-05:00",
+      "id": "19b0ba2bae5d123d",
+      "subject": "Summary of failures for Google Apps Script: CHAMP News Manager",
+      "date": "2025-12-10T23:19:32-05:00",
       "thumbnail": null,
-      "snippet": "*Not all fungi head to Florida for the winter!* RSVP <https://comm-hub-myco.github.io/champ-site/>. Join Larry Millman <https://comm-hub-myco.github.io/champ-site/> @ Codman Woods - Lincoln, MA <https",
-      "from": "BasidiomyCody <basidiomycody@gmail.com>",
+      "snippet": "Your script, CHAMP News Manager, has recently failed to finish successfully. A summary of the failure(s) is shown below. To configure the triggers for this script, or change your setting for receiving",
+      "from": "noreply-apps-scripts-notifications@google.com",
       "type": "news",
       "tags": [
         "news",
         "email",
         "news"
       ],
-      "skinnyBody": "*Not all fungi head to Florida for the winter!* RSVP <https://comm-hub-myco.github.io/champ-site/>. Join Larry Millman <https://comm-hub-myco.github.io/champ-site/> @ Codman Woods - Lincoln, MA <https://lincolnconservation.org/tws_holding/codman/>. Sunday @ 11:00 AM. Parking at Donelan's Supermarket - 145 Lincoln Road, Lincoln, MA 01773 <https://www.google.com/maps/search/145+Lincoln+Road,+Lincoln,+MA+01773?entry=gmail&source=g> . *C.H.A. <https://comm-hub-myco.github.io/champ-site/>**M.P. <https://comm-hub-myco.github.io/champ-site/>* *Community Hub for Actualizing Mycological Passion*"
+      "skinnyBody": "Your script, CHAMP News Manager, has recently failed to finish successfully. A summary of the failure(s) is shown below. To configure the triggers for this script, or change your setting for receiving future failure notifications, click here. Start Function Error Message Trigger End 12/9/25 11:19:31 PM EST updateChampNewsFeed We're sorry, a server error occurred while reading from storage. Error code RESOURCE_EXHAUSTED. time-based 12/9/25 11:19:31 PM EST Sincerely, Google Apps Script Need help? Visit the Google Apps Script documentation. Please do not reply to this message. (c) 2025 Google"
     },
     {
-      "id": "19aecd16be74e69d",
-      "subject": "[CHAMP: News] THE NEWS FEED IS NOW WORKING!",
-      "date": "2025-12-04T23:42:06-05:00",
-      "thumbnail": null,
-      "snippet": "Simply email <comm.hub.myco@gmail.com> anything newsworthy! Include \"[CHAMP: News]\" in the subject line to automatically post the email on the CHAMP website's news feed. Keep the rest of the group up ",
+      "id": "19b0884cd6ad79eb",
+      "subject": "[CHAMP: News] C.H.A.M.P.?s Weekend Update; Forecasting Next Events",
+      "date": "2025-12-10T08:47:45-05:00",
+      "thumbnail": "gallery/images/news-19b0884cd6ad79eb.jpg",
+      "snippet": "*Report from C.H.A.M.P.?s 1st Foray, Lincoln, MA 12.7.25 * Larry started off saying something about the importance of noticing what we don?t see, but the presence of negative data couldn?t hold a cand",
       "from": "BasidiomyCody <basidiomycody@gmail.com>",
       "type": "news",
       "tags": [
@@ -28,7 +28,7 @@
         "email",
         "news"
       ],
-      "skinnyBody": "Simply email <comm.hub.myco@gmail.com> anything newsworthy! Include \"[CHAMP: News]\" in the subject line to automatically post the email on the CHAMP website's news feed. Keep the rest of the group up to date with ease! -Cody"
+      "skinnyBody": "*Report from C.H.A.M.P.?s 1st Foray, Lincoln, MA 12.7.25 * Larry started off saying something about the importance of noticing what we don?t see, but the presence of negative data couldn?t hold a candle to what materialized 10 minutes later: Bulgaria inquinans, commonly called Black Bulgar or Bachelor?s Buttons ? bulbous protrusions like gobs of tar emerging from huge sawn logs ? oak, I believe. Matte black, like Finnish licorice, with cup-like depressions. I mistakenly thought the name had something to do with the former Soviet country, Bulgaria, but etymology filled the binomial with color and motion: ?inflated,? ?blister-like;? ?dirtying,? ?polluting,? ?blackening,? ?staining,? ?making unclean.? So be it - the dirty, bulging fungi left me feeling renewed. Larry?s words and our presence as a group in the woods ? Jula, his Dad, Martin, and son Micha; Dan, Liam, Sean, KieuLy, Larry, and myself ? amplified a simple message: even on a chilly, steel-grey New England morning, the forest floor holds a cache of little treasures ? like Hanukkah gelt or Christmas cookies ? cups, crusts, and jellies, resplendent in a quiet but full-throated way, edging out the inelegant rumble of the MBTA commuter rail trundling by. Arboreal chamber music enjoyed from front-row seats, reminding me of John Cage, amateur mycologist and vanguard creator of aleatory music: ?There is no such thing as an empty space or an empty time. There is always something to see, something to hear. In fact, try as we may to make a silence, we cannot.? A quick rundown of notable species seen: a cascade of lumpy polypores ? Trametes gibbosa; oak-log sections tinted with green wood-staining fungus ? Chlorociboria sp.; tiny matchstick fungi ? Phaeocalicium polyporaeum ? lifting off from the margins of purple-tooth polypores ? Trichaptum abietinum; and, as if bidding us farewell like tiny munchkins from Oz, a ?hairy fairy? ? Lachnum virgineum; and a troupe of Mycena sp. *On the Horizon* Stay tuned for our next events. Plans are underfoot for a movie night pegged to an ethnographic film. [image: image.jpeg] [image: image.jpeg] [image: image.jpeg] [image: image.jpeg]"
     }
   ]
 }
