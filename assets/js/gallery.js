@@ -6,6 +6,36 @@
   const statusEl = document.getElementById('gallery-status');
   if (!grid) return;
 
+  function isHeicLike(item) {
+    const mime = (item.mime || '').toLowerCase();
+    const raw = (item.image || '').toLowerCase();
+
+    return (
+      mime.includes('heic') ||
+      mime.includes('heif') ||
+      raw.endsWith('.heic') ||
+      raw.endsWith('.heif')
+    );
+  }
+
+  function resolveImageSrc(rawImage) {
+    let src = rawImage || '';
+
+    // If image path is absolute (starts with http), leave it
+    if (/^https?:\/\//.test(src)) return src;
+
+    // If it starts with 'gallery/', we only need '../' from /gallery/index.html
+    if (src.startsWith('gallery/')) return `../${src}`;
+
+    // If it starts with 'images/', it's already relative to /gallery/
+    if (src.startsWith('images/')) return src;
+
+    // Otherwise, treat it as a filename under /gallery/images/
+    if (src) return `images/${src}`;
+
+    return '';
+  }
+
   async function loadGallery() {
     try {
       statusEl.textContent = 'Loading gallery...';
@@ -37,30 +67,48 @@
         const imgWrap = document.createElement('div');
         imgWrap.className = 'gallery-item-img-wrap';
 
-        const img = document.createElement('img');
         const rawImage = item.image || '';
-        let src = rawImage;
+        const src = resolveImageSrc(rawImage);
 
-        // If image path is absolute (starts with http), leave it
-        if (!/^https?:\/\//.test(rawImage)) {
-        // If it starts with 'gallery/', we only need '../' from /gallery/index.html
-        if (rawImage.startsWith('gallery/')) {
-            src = `../${rawImage}`;
-        }
-        // If it starts with 'images/', it's already relative to /gallery/
-        else if (rawImage.startsWith('images/')) {
-            src = rawImage;
-        }
-        // Otherwise, treat it as a filename under /gallery/images/
-        else if (rawImage) {
-            src = `images/${rawImage}`;
-        }
-        }
+        // HEIC/HEIF placeholder (many browsers cannot render HEIC in <img>)
+        if (src && isHeicLike(item)) {
+          const placeholder = document.createElement('div');
+          placeholder.className = 'gallery-heic-placeholder';
 
-        img.src = src;
-        img.alt = item.alt || item.description || 'Fungal image';
+          // Optional: show file name at end
+          const fileName =
+            rawImage && rawImage.includes('/')
+              ? rawImage.split('/').pop()
+              : rawImage;
 
-        imgWrap.appendChild(img);
+          placeholder.innerHTML = `
+            <div class="gallery-heic-icon">📸</div>
+            <div class="gallery-heic-text">
+              <div><strong>HEIC image</strong> (may not display in this browser)</div>
+              <div style="margin-top:6px;">
+                <a href="${src}" download>Download original</a>
+              </div>
+              ${fileName ? `<div class="gallery-heic-filename">${fileName}</div>` : ''}
+            </div>
+          `;
+
+          imgWrap.appendChild(placeholder);
+        } else {
+          // Normal image (with fallback)
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = item.alt || item.description || 'Fungal image';
+          img.loading = 'lazy';
+
+          img.addEventListener('error', () => {
+            const fallback = document.createElement('div');
+            fallback.className = 'gallery-image-error';
+            fallback.textContent = 'Image could not be loaded.';
+            img.replaceWith(fallback);
+          });
+
+          imgWrap.appendChild(img);
+        }
 
         const body = document.createElement('div');
         body.className = 'gallery-item-body';

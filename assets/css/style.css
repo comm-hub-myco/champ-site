@@ -820,6 +820,55 @@ button:hover:not(.primary) {
   border-radius: 10px;
 }
 
+.gallery-heic-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--panel-soft);
+  color: var(--muted);
+  text-align: center;
+  min-height: 160px;
+}
+
+.gallery-heic-icon {
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+}
+
+.gallery-heic-text {
+  font-size: 0.9rem;
+  line-height: 1.25;
+}
+
+.gallery-heic-text a {
+  color: var(--accent-2);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.gallery-heic-filename {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  opacity: 0.9;
+  word-break: break-word;
+}
+
+.gallery-image-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--panel-soft);
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  min-height: 160px;
+}
 
 /* News page layout */
 
