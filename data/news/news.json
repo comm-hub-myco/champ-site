@@ -1,21 +1,6 @@
 {
   "items": [
     {
-      "id": "19b0ba2bae5d123d",
-      "subject": "Summary of failures for Google Apps Script: CHAMP News Manager",
-      "date": "2025-12-10T23:19:32-05:00",
-      "thumbnail": null,
-      "snippet": "Your script, CHAMP News Manager, has recently failed to finish successfully. A summary of the failure(s) is shown below. To configure the triggers for this script, or change your setting for receiving",
-      "from": "noreply-apps-scripts-notifications@google.com",
-      "type": "news",
-      "tags": [
-        "news",
-        "email",
-        "news"
-      ],
-      "skinnyBody": "Your script, CHAMP News Manager, has recently failed to finish successfully. A summary of the failure(s) is shown below. To configure the triggers for this script, or change your setting for receiving future failure notifications, click here. Start Function Error Message Trigger End 12/9/25 11:19:31 PM EST updateChampNewsFeed We're sorry, a server error occurred while reading from storage. Error code RESOURCE_EXHAUSTED. time-based 12/9/25 11:19:31 PM EST Sincerely, Google Apps Script Need help? Visit the Google Apps Script documentation. Please do not reply to this message. (c) 2025 Google"
-    },
-    {
       "id": "19b0884cd6ad79eb",
       "subject": "[CHAMP: News] C.H.A.M.P.?s Weekend Update; Forecasting Next Events",
       "date": "2025-12-10T08:47:45-05:00",
