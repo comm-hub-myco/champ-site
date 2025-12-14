@@ -1,6 +1,17 @@
 {
   "items": [
     {
+      "id": "news-19b0884cd6ad79eb",
+      "image": "images/news-19b0884cd6ad79eb.jpg",
+      "description": "[CHAMP: News] C.H.A.M.P.?s Weekend Update; Forecasting Next Events",
+      "tags": [
+        "news-headline"
+      ],
+      "date": "2025-12-10",
+      "submitted_by": "BasidiomyCody <basidiomycody@gmail.com>",
+      "mime": "image/jpeg"
+    },
+    {
       "id": "2025-12-09-20251209213943-this-video-shows-a-mushroom-that-i-had-found-in-",
       "image": "gallery/images/2025-12-09-20251209213943-this-video-shows-a-mushroom-that-i-had-found-in-.jpg",
       "description": "This video shows a mushroom that I had found in Wareham. The cap appears multicolored. The stem has a reticulation-like pattern. The substrate where I found the mushroom is mostly sandy soil covered with a grassy/moss layer. The reticulation-like pattern on the stem turned completely ink-black after a number of days. It gave the impression that it was glossy-wet, but it was actually dry. I am putting it out there for anyone to feel free to attempt to identify it. I have posted it on iNaturalist without any results. I have also shared the video with BMC members without any clue of what it is. It’s such a striking and beautiful mushroom that I am committed to pursue until it is identified.",
@@ -47,6 +58,19 @@
       "date": "2025-12-02",
       "submitted_by": "Cody Crossley",
       "mime": "image/png"
+    },
+    {
+      "id": "2025-12-02-20251214195429-foray-pic-1",
+      "image": "gallery/images/2025-12-02-20251214195429-foray-pic-1.jpg",
+      "description": "Foray pic 1",
+      "tags": [
+        "champ",
+        "foray",
+        "larry"
+      ],
+      "date": "2025-12-02",
+      "submitted_by": "Jon Applefield",
+      "mime": "image/jpeg"
     },
     {
       "id": "2025-11-23-20251203201557-friendsgiving-25-a-lovely-appetizer-from-ari-and",
