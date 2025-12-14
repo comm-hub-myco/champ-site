@@ -1016,3 +1016,17 @@ button:hover:not(.primary) {
 .news-card .news-tag {
   margin-bottom: 4px;
 }
+
+.news-toggle {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--panel-soft);
+  color: var(--text-2);
+}
+
+.news-toggle:hover {
+  background: #e9decf;
+  border-color: var(--border-strong);
+}
