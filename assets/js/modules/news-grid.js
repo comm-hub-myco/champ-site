@@ -88,12 +88,15 @@
           const href = articleHref(id);
 
           // Build preview text from HTML if available, else plain
-          const sourceText = item.htmlBody
-            ? htmlToText(item.htmlBody)
-            : (item.skinnyBody || item.snippet || '');
+          const sourceText =
+            item.plainBody ||
+            (item.htmlBody ? htmlToText(item.htmlBody) : '') ||
+            item.snippet ||
+            '';
 
-          const collapsed = wordsSlice(sourceText, 150);
-          const expanded = wordsSlice(sourceText, 500);
+
+          const collapsed = wordsSlice(sourceText, 20);
+          const expanded = wordsSlice(sourceText, 150);
 
           const card = document.createElement('a');
           card.className = 'event-card'; // reuse event card styling

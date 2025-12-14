@@ -122,7 +122,7 @@
       const from = item.from || '';
 
       const html = item.htmlBody ? sanitizeNewsHtml(item.htmlBody) : '';
-      const plain = item.skinnyBody || item.snippet || '';
+      const plain = item.plainBody || item.snippet || '';
 
       host.innerHTML = `
         <header class="event-detail-header">
