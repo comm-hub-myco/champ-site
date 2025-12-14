@@ -26,6 +26,10 @@
   --accent-3: #5E0B15;
   --accent-4: #ffd67c;        /* bright secondary accent */
   --accent-5: #f09744;
+  --accent-6: #6d9f96;        /* deeper rust / for text emphasis */
+  --accent-7: #1b3f2f;
+  --accent-8: #194370;        /* bright secondary accent */
+  --accent-9: #86aec8;
 
   --ring: #3b4331;            /* focus rings, strong outlines */
   --dark: #161711;            /* deep background for some cards */
@@ -57,6 +61,10 @@
   --accent-3: #5e0b15;  /* your deep wine stays */
   --accent-4: #ffdc8a;
   --accent-5: #f6a553;
+  --accent-6: #6d789f;        /* deeper rust / for text emphasis */
+  --accent-7: #1c1b3f;
+  --accent-8: #701954;        /* bright secondary accent */
+  --accent-9: #c886c6;
 
   --ring: #d4cfb0;
   --dark: #0f0919;
@@ -643,19 +651,19 @@ button:hover:not(.primary) {
   display: block;
   padding: 10px 12px;
   border-radius: 10px;
-  background: var(--dark);
+  background: var(--accent-4);
   border: 1px solid #23251b;
   text-decoration: none;
-  color: #f4f2ea;
+  color: var(--accent-7);
   transition: transform 0.1s ease, box-shadow 0.1s ease,
     border-color 0.1s ease, background 0.12s ease;
 }
 
 .link-card:hover {
   transform: translateY(-1px);
-  border-color: var(--accent);
+  border-color: var(--accent-7);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
-  background: #1e2018;
+  background: var(--accent-5);
 }
 
 .link-card-title {
@@ -666,13 +674,13 @@ button:hover:not(.primary) {
 
 .link-card-meta {
   font-size: 0.8rem;
-  color: #b5baa7;
+  color: var(--accent-3);
   margin-bottom: 4px;
 }
 
 .link-card-desc {
   font-size: 0.85rem;
-  color: #b5baa7;
+  color: var(--accent-8);
 }
 
 /* Add event page */
