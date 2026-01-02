@@ -1,6 +1,19 @@
 {
   "items": [
     {
+      "id": "19b7fff9368cc314",
+      "subject": "[CHAMP: News] test",
+      "date": "2026-01-02T13:36:42-05:00",
+      "from": "BasidiomyCody <basidiomycody@gmail.com>",
+      "tags": [
+        "news",
+        "email"
+      ],
+      "snippet": "Testing",
+      "htmlBody": "<div dir=\"auto\">Testing</div>",
+      "plainBody": "Testing"
+    },
+    {
       "id": "19b0884cd6ad79eb",
       "subject": "[CHAMP: News] C.H.A.M.P.’s Weekend Update; Forecasting Next Events",
       "date": "2025-12-10T08:47:45-05:00",
