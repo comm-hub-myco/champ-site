@@ -20,7 +20,7 @@
   }
 
 function isAdmin() {
-  return localStorage.getItem('champ_admin') === 'true';
+  return localStorage.getItem('champ_admin') === 'false';
 }
 
 
