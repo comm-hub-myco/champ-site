@@ -1,6 +1,7 @@
 // Simple bootstrap + helpers
 const $ = (sel, root=document) => root.querySelector(sel);
 const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+localStorage.setItem('champ_admin', 'true'); // For testing only; remove in production
 
 
 const App = {
