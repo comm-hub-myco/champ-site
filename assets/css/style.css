@@ -1038,3 +1038,24 @@ button:hover:not(.primary) {
   background: #e9decf;
   border-color: var(--border-strong);
 }
+
+.news-article-controls {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.news-delete-btn {
+  align-self: flex-start;
+  background: var(--accent-3);
+  color: #fffdf7;
+  border: 1px solid var(--accent-2);
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.news-delete-btn:hover {
+  filter: brightness(1.05);
+}

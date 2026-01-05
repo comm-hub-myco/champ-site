@@ -10,6 +10,20 @@
     return url.searchParams.get('id') || '';
   }
 
+  async function readConfig() {
+    try {
+      const res = await fetch('../../data/site-config.json');
+      return res.ok ? res.json() : null;
+    } catch {
+      return null;
+    }
+  }
+
+function isAdmin() {
+  return localStorage.getItem('champ_admin') === 'true';
+}
+
+
   // Allow basic formatting + links. Remove scripts/styles and dangerous attrs.
   function sanitizeNewsHtml(html) {
     if (!html) return '';
@@ -103,6 +117,65 @@
     if (!id) {
       if (statusEl) statusEl.textContent = 'Missing article id.';
       return;
+    }
+
+    // Add delete controls for admins only
+    if (isAdmin()) {
+      const config = await readConfig();
+      const endpoint = config?.newsDeletion?.endpoint;
+
+      const controls = document.createElement('div');
+      controls.className = 'news-article-controls';
+      controls.innerHTML = `
+        <button type="button" class="news-delete-btn">Delete Announcement</button>
+        <div class="status" style="margin-top:8px;" id="news-delete-status"></div>
+      `;
+
+      host.appendChild(controls);
+
+      const btn = controls.querySelector('.news-delete-btn');
+      const delStatus = controls.querySelector('#news-delete-status');
+
+      btn.addEventListener('click', async () => {
+        if (!endpoint) {
+          delStatus.textContent = 'Delete endpoint is not configured.';
+          return;
+        }
+
+        const ok = confirm('Delete this announcement from the CHAMP site? This can be undone only by removing it from deleted.json.');
+        if (!ok) return;
+
+        delStatus.textContent = 'Deleting…';
+
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+          });
+
+          if (!res.ok) {
+            const text = await res.text();
+            console.warn('Delete error:', res.status, text);
+            delStatus.textContent = 'Delete failed. Please try again.';
+            return;
+          }
+
+          const data = await res.json();
+          if (!data.ok) {
+            delStatus.textContent = data.error || 'Delete failed.';
+            return;
+          }
+
+          delStatus.textContent = 'Deleted. Returning to News…';
+          setTimeout(() => {
+            window.location.href = '../';
+          }, 700);
+        } catch (e) {
+          console.error(e);
+          delStatus.textContent = 'Delete failed due to a network error.';
+        }
+      });
     }
 
     try {
