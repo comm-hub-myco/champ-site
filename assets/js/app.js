@@ -2,6 +2,14 @@
 const $ = (sel, root=document) => root.querySelector(sel);
 const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
 
+function getSiteBase() {
+  // Works on GitHub Pages project sites:
+  // https://username.github.io/<repo>[/...]
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  // parts[0] = 'champ-site'
+  return '/' + (parts[0] || '') + '/';
+}
+
 const App = {
   config: null,
   async init() {
@@ -10,8 +18,10 @@ const App = {
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = y;
 
-    this.config = await ('../data/site-config.json').json();
-    const modules = await ('../data/modules.json').json();
+    const BASE = getSiteBase();
+    this.config = await (await fetch(`${BASE}data/site-config.json`)).json();
+
+    const modules = await (await fetch(`${BASE}data/modules.json`)).json();
 
     const host = document.getElementById('frontpage');
 
