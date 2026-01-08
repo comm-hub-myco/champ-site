@@ -1040,22 +1040,20 @@ button:hover:not(.primary) {
 }
 
 .news-article-controls {
-  margin-top: 16px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.news-delete-btn {
+.news-archive-btn {
   align-self: flex-start;
-  background: var(--accent-3);
-  color: #fffdf7;
+  background: var(--accent-5);
+  color: var(--accent-3);
   border: 1px solid var(--accent-2);
   padding: 8px 14px;
   border-radius: 999px;
   cursor: pointer;
 }
+.news-archive-btn:hover { filter: brightness(1.05); }
 
-.news-delete-btn:hover {
-  filter: brightness(1.05);
-}

@@ -20,36 +20,36 @@
   }
 
   function isAdmin() {
-    return localStorage.getItem('champ_admin') === 'false';
+    return localStorage.getItem('champ_admin') === 'true';
   }
 
-  async function maybeAddDeleteControls(id) {
-    if (localStorage.getItem('champ_admin') !== 'true') return;
+  async function maybeAddArchiveControls(id) {
+    if (isAdmin) return;
 
     const config = await readConfig();
-    const endpoint = config?.newsDeletion?.endpoint;
+    const endpoint = config?.newsArchive?.endpoint;
 
     const controls = document.createElement('div');
     controls.className = 'news-article-controls';
     controls.innerHTML = `
-      <button type="button" class="news-delete-btn">Delete Announcement</button>
-      <div class="status" style="margin-top:8px;" id="news-delete-status"></div>
+      <button type="button" class="news-archive-btn">Archive Announcement</button>
+      <div class="status" style="margin-top:8px;" id="news-archive-status"></div>
     `;
 
     host.appendChild(controls);
 
-    const btn = controls.querySelector('.news-delete-btn');
-    const delStatus = controls.querySelector('#news-delete-status');
+    const btn = controls.querySelector('.news-archive-btn');
+    const arcStatus = controls.querySelector('#news-archive-status');
 
     btn.addEventListener('click', async () => {
       if (!endpoint) {
-        delStatus.textContent = 'Delete endpoint is not configured.';
+        arcStatus.textContent = 'Archive endpoint is not configured.';
         return;
       }
-      const ok = confirm('Delete this announcement from the CHAMP site?');
+      const ok = confirm('Archive this announcement and remove it from the feed?');
       if (!ok) return;
 
-      delStatus.textContent = 'Deleting…';
+      arcStatus.textContent = 'Archiving…';
 
       try {
         const res = await fetch(endpoint, {
@@ -63,16 +63,16 @@
         try { data = JSON.parse(text); } catch {}
 
         if (!res.ok || !data.ok) {
-          console.warn('Delete failed:', res.status, text);
-          delStatus.textContent = (data && data.error) ? data.error : 'Delete failed.';
+          console.warn('Archive failed:', res.status, text);
+          arcStatus.textContent = (data && data.error) ? data.error : 'Archive failed.';
           return;
         }
 
-        delStatus.textContent = 'Deleted. Returning to News…';
+        arcStatus.textContent = 'Archived. Returning to News…';
         setTimeout(() => (window.location.href = '../'), 700);
       } catch (e) {
         console.error(e);
-        delStatus.textContent = 'Network error while deleting.';
+        arcStatus.textContent = 'Network error while archiving.';
       }
     });
   }
@@ -174,7 +174,7 @@
       return;
     }
 
-    await maybeAddDeleteControls(id);
+    await maybeAddArchiveControls(id);
 
     try {
       const res = await fetch('../../data/news/news.json');
@@ -202,10 +202,67 @@
           ${from ? `<p class="event-detail-location">${escapeHtml(from)}</p>` : ''}
         </header>
 
+        <div id="news-admin-controls"></div>
+
         <div class="event-detail-body">
           ${html ? html : `<p>${escapeHtml(plain).replace(/\n/g, '<br>')}</p>`}
         </div>
       `;
+
+      const adminMount = document.getElementById('news-admin-controls');
+
+      if (adminMount && isAdmin) {
+        const config = await readConfig();
+        const endpoint = config?.newsArchive?.endpoint;
+
+        adminMount.innerHTML = `
+          <div class="news-article-controls">
+            <button type="button" class="news-archive-btn">Archive Announcement</button>
+            <div class="status" id="news-archive-status"></div>
+          </div>
+        `;
+
+        const btn = adminMount.querySelector('.news-archive-btn');
+        const arcStatus = adminMount.querySelector('#news-archive-status');
+
+        btn.addEventListener('click', async () => {
+          if (!endpoint) {
+            arcStatus.textContent = 'Archive endpoint is not configured.';
+            return;
+          }
+
+          const ok = confirm('Archive this announcement and remove it from the feed?');
+          if (!ok) return;
+
+          arcStatus.textContent = 'Archiving…';
+
+          try {
+            const res = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id })
+            });
+
+            const text = await res.text();
+            let data = {};
+            try { data = JSON.parse(text); } catch {}
+
+            if (!res.ok || !data.ok) {
+              console.warn('Archive failed:', res.status, text);
+              arcStatus.textContent = (data && data.error) ? data.error : 'Archive failed.';
+              return;
+            }
+
+            arcStatus.textContent = 'Archived. Returning to News…';
+            setTimeout(() => { window.location.href = '../'; }, 700);
+          } catch (e) {
+            console.error(e);
+            arcStatus.textContent = 'Network error while archiving.';
+          }
+        });
+      }
+
+
     } catch (e) {
       console.error(e);
       if (statusEl) statusEl.textContent = 'Error loading article.';

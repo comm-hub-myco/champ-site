@@ -11,7 +11,7 @@
 "gallerySubmission": {
   "endpoint": "https://champ-gallery-worker.comm-hub-myco.workers.dev/add-gallery"
 },
-"newsDeletion": {
+"newsArchive": {
   "endpoint": "https://champ-gallery-worker.comm-hub-myco.workers.dev/delete-news"
 }
 }
