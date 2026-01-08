@@ -1,18 +1,17 @@
 // Simple bootstrap + helpers
 const $ = (sel, root=document) => root.querySelector(sel);
 const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
-localStorage.setItem('champ_admin', 'false');
-
 
 const App = {
   config: null,
   async init() {
+    localStorage.setItem('champ_admin', 'false');
     const y = new Date().getFullYear();
     const yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = y;
 
-    this.config = await (await fetch('data/site-config.json')).json();
-    const modules = await (await fetch('data/modules.json')).json();
+    this.config = await ('../data/site-config.json').json();
+    const modules = await ('../data/modules.json').json();
 
     const host = document.getElementById('frontpage');
 
