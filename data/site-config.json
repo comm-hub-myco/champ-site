@@ -12,6 +12,6 @@
   "endpoint": "https://champ-gallery-worker.comm-hub-myco.workers.dev/add-gallery"
 },
 "newsArchive": {
-  "endpoint": "https://champ-gallery-worker.comm-hub-myco.workers.dev/delete-news"
+  "endpoint": "https://champ-gallery-worker.comm-hub-myco.workers.dev/archive-news"
 }
 }
