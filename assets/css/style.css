@@ -1203,3 +1203,11 @@ button:hover:not(.primary) {
   border-color: rgba(255,255,255,0.14);
   box-shadow: 0 10px 22px rgba(0,0,0,0.45);
 }
+
+.news-article-card {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--news-accent) 6%, var(--panel)) 0%,
+    var(--panel) 40%
+  );
+}
