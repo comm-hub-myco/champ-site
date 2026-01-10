@@ -1057,3 +1057,149 @@ button:hover:not(.primary) {
 }
 .news-archive-btn:hover { filter: brightness(1.05); }
 
+/* ============================
+   News Tiles: Category Colors + Vertical Tab
+   Requires:
+   - card element has class: .news-article-card and .news-type-<type>
+   - label element has class: .news-tag and .news-tag-<type>
+   ============================ */
+
+/* Base tile behavior */
+.news-article-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--border-subtle);
+  background: var(--panel);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.news-article-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(34, 28, 18, 0.16);
+}
+
+/* Create a subtle "category band" across the top */
+.news-article-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 6px;
+  width: 100%;
+  background: var(--news-accent, var(--accent));
+  opacity: 0.9;
+}
+
+/* Vertical tab label (uses the existing .news-tag element) */
+.news-article-card .news-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+
+  /* vertical tab styling */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 92px;
+  width: 28px;
+  padding: 0;
+
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+
+  background: var(--news-accent, var(--accent));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  /* make the text vertical */
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg); /* reads top-to-bottom visually */
+
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+
+/* Add breathing room so the tab doesn't overlap text */
+.news-article-card .news-article-body {
+  padding-left: 44px; /* room for the vertical tab */
+}
+
+/* If you have an image at top, ensure tab sits above it nicely */
+.news-article-card .news-article-image {
+  position: relative;
+}
+
+/* ----------------------------
+   Category color assignments
+   ---------------------------- */
+
+/* Default (news) */
+.news-type-news {
+  --news-accent: var(--accent);
+}
+.news-tag-news {
+  background: var(--accent);
+}
+
+/* Event (time sensitive but lower priority) */
+.news-type-event {
+  --news-accent: var(--accent-contrast); /* lichen green */
+}
+.news-tag-event {
+  background: var(--accent-contrast);
+}
+
+/* Friends / affiliates */
+.news-type-friends {
+  --news-accent: #6d78a8; /* muted academic indigo */
+}
+.news-tag-friends {
+  background: #6d78a8;
+}
+
+/* Question (call for responses) */
+.news-type-question {
+  --news-accent: #b07a2a; /* ochre / spore print gold */
+}
+.news-tag-question {
+  background: #b07a2a;
+}
+
+/* Poll (admin decision / formal) */
+.news-type-poll {
+  --news-accent: #7a5aa6; /* muted violet */
+}
+.news-tag-poll {
+  background: #7a5aa6;
+}
+
+/* In the News (external coverage) */
+.news-type-in-the-news {
+  --news-accent: #2f7f86; /* teal / scientific */
+}
+.news-tag-in-the-news {
+  background: #2f7f86;
+}
+
+/* Make borders subtly reflect category */
+.news-type-news,
+.news-type-event,
+.news-type-friends,
+.news-type-question,
+.news-type-poll,
+.news-type-in-the-news {
+  border-color: color-mix(in oklab, var(--news-accent) 28%, var(--border-subtle));
+}
+
+/* Dark mode compatibility: keep tab high contrast */
+[data-theme="dark"] .news-article-card .news-tag {
+  border-color: rgba(255,255,255,0.14);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.45);
+}
