@@ -19,8 +19,20 @@
     }
   }
 
+  function stripCidUrls(html) {
+    if (!html) return html;
+
+    // Remove any <img ... src="cid:..."> tags entirely
+    html = html.replace(/<img\b[^>]*\bsrc=["']cid:[^"']*["'][^>]*>/gi, '');
+
+    // Also remove background images using cid:
+    html = html.replace(/url\(\s*["']?cid:[^)]+["']?\s*\)/gi, 'none');
+
+    return html;
+  }
+
   function isAdmin() {
-    return localStorage.getItem('champ_admin') === 'true';
+    return (localStorage.getItem('champ_admin') == 'true');
   }
 
   async function maybeAddArchiveControls(id) {
@@ -195,17 +207,19 @@
       const html = item.htmlBody ? sanitizeNewsHtml(item.htmlBody) : '';
       const plain = item.plainBody || item.snippet || '';
 
+      const safeHtml = stripCidUrls(html || '');
+
       host.innerHTML = `
         <header class="event-detail-header">
           <p class="event-detail-date">${dateStr}</p>
           <h1 class="event-detail-title">${escapeHtml(subject)}</h1>
-          ${from ? `<p class="event-detail-location">${escapeHtml(from)}</p>` : ''}
+          
         </header>
 
         <div id="news-admin-controls"></div>
 
         <div class="event-detail-body">
-          ${html ? html : `<p>${escapeHtml(plain).replace(/\n/g, '<br>')}</p>`}
+          ${safeHtml ? safeHtml : `<p>${escapeHtml(plain).replace(/\n/g, '<br>')}</p>`}
         </div>
       `;
 
