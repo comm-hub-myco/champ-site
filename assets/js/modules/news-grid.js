@@ -79,7 +79,7 @@
         }
 
         // Sort newest first
-        out.sort((a, b) => {
+        items.sort((a, b) => {
           const ap = a.pinned ? 1 : 0;
           const bp = b.pinned ? 1 : 0;
           if (bp !== ap) return bp - ap; // pinned first
