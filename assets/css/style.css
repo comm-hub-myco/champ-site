@@ -1189,17 +1189,88 @@ button:hover:not(.primary) {
 }
 
 /* Make borders subtly reflect category */
-.news-type-news,
-.news-type-event,
-.news-type-friends,
-.news-type-question,
-.news-type-poll,
-.news-type-in-the-news {
-  border-color: color-mix(in oklab, var(--news-accent) 28%, var(--border-subtle));
+/* ============================
+   News Category Styling (CHAMP)
+   Types:
+   announcement, updates, field-notes, in-the-news, ideas, admin, qa
+   ============================ */
+
+.news-type-announcement { --news-accent: #e3c14a; }   /* honey yellow */
+.news-type-updates      { --news-accent: #6a2c70; }   /* purple/burgundy */
+.news-type-field-notes  { --news-accent: #5f7a3a; }   /* moss green */
+.news-type-in-the-news  { --news-accent: #4f77a6; }   /* unsaturated blue */
+.news-type-ideas        { --news-accent: #c56a2a; }   /* orange → rust */
+.news-type-admin        { --news-accent: #d77a8a; }   /* salmon → pink */
+.news-type-qa           { --news-accent: #8e6bbf; }   /* lilac purple */
+
+/* Use the accent to color the vertical tab */
+.news-tag-announcement,
+.news-tag-updates,
+.news-tag-field-notes,
+.news-tag-in-the-news,
+.news-tag-ideas,
+.news-tag-admin,
+.news-tag-qa {
+  background: var(--news-accent);
 }
 
-/* Dark mode compatibility: keep tab high contrast */
-[data-theme="dark"] .news-article-card .news-tag {
-  border-color: rgba(255,255,255,0.14);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.45);
+/* Announcements: bold label + bold body */
+.news-type-announcement .news-tag {
+  font-weight: 800;
+}
+.news-type-announcement .news-article-title,
+.news-type-announcement .news-article-snippet,
+.news-type-announcement .news-article-meta {
+  font-weight: 700;
+}
+
+/* Updates: burgundy/purple label + bold body text */
+.news-type-updates .news-article-snippet,
+.news-type-updates .news-article-title {
+  font-weight: 700;
+}
+
+/* Ideas: slightly warmer hover emphasis */
+.news-type-ideas:hover {
+  border-color: color-mix(in oklab, var(--news-accent) 45%, var(--border-subtle));
+}
+
+/* Ensure dark tiles remain readable in dark mode */
+[data-theme="dark"] .news-article-card {
+  background: color-mix(in oklab, var(--panel) 92%, #000 8%);
+}
+
+.news-article-card {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--news-accent) 6%, var(--panel)) 0%,
+    var(--panel) 40%
+  );
+}
+
+/* News filters */
+.news-filters {
+  margin: 0 0 12px;
+}
+
+.news-filter-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.news-filter-label {
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+.news-filter-select,
+.news-sort-select {
+  background: var(--panel-soft);
+  color: var(--text);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
 }
