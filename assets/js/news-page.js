@@ -20,8 +20,28 @@
     }
   }
 
+  const TYPE_ORDER = ['news', 'in-the-news', 'event', 'friends', 'question', 'poll'];
+
+  function normalizeType(type) {
+    const t = (type || '').toString().trim().toLowerCase();
+    if (t === 'news') return 'field-notes';
+    if (t === 'in the news' || t === 'in_the_news') return 'in-the-news';
+    if (t === 'q&a' || t === 'q & a') return 'qa';
+    return t || 'field-notes';
+  }
+
+  function cleanSubject(raw) {
+    return (raw || '')
+      .toString()
+      .replace(/\[\s*CHAMP\s*:\s*[^\]]+\]/gi, '')   // remove [CHAMP: ...]
+      .replace(/~?\[CHAMP[^]]*\]~?/gi, '')          // remove ~[CHAMP]~ variants
+      .trim()
+      .replace(/^[-–—:]+/, '')
+      .trim();
+  }
+
+
   function getSiteBase() {
-    // GitHub Pages project site base: /champ-site/
     const parts = window.location.pathname.split('/').filter(Boolean);
     return '/' + (parts[0] || '') + '/';
   }
@@ -35,21 +55,14 @@
   // Content helpers
   // ----------------------------
   function stripCidUrls(html) {
-    // Prevent cid: fetch errors in browser (email inline images)
     if (!html) return '';
     let out = String(html);
-
-    // Remove cid <img> tags
     out = out.replace(/<img\b[^>]*\bsrc=["']cid:[^"']*["'][^>]*>/gi, '');
-
-    // Remove cid background images
     out = out.replace(/url\(\s*["']?cid:[^)]+["']?\s*\)/gi, 'none');
-
     return out;
   }
 
   function htmlToText(html) {
-    // Convert HTML to plain text for fallback snippet
     const div = document.createElement('div');
     div.innerHTML = html || '';
     return (div.textContent || div.innerText || '').replace(/\s+/g, ' ').trim();
@@ -62,8 +75,6 @@
   }
 
   function safeRelativeThumbSrc(thumbnail) {
-    // news page is /news/ so we need to go up one level to repo root
-    // thumbnail is usually 'gallery/images/...'
     if (!thumbnail) return '';
     if (/^https?:\/\//i.test(thumbnail)) return thumbnail;
     return `../${thumbnail.replace(/^\/+/, '')}`;
@@ -73,7 +84,7 @@
   // Tile builder
   // ----------------------------
   function buildNewsTile(item) {
-    const type = item.type || 'news';
+    const type = normalizeType(item.type);
 
     const card = document.createElement('article');
     card.className = `news-article-card news-type-${type}`;
@@ -82,7 +93,6 @@
     card.setAttribute('role', 'link');
     card.setAttribute('aria-label', `Open article: ${item.subject || 'News item'}`);
 
-    // Headline image (optional)
     if (item.thumbnail) {
       const imgWrap = document.createElement('div');
       imgWrap.className = 'news-article-image';
@@ -91,7 +101,6 @@
       img.alt = item.subject || 'News headline image';
       img.src = safeRelativeThumbSrc(item.thumbnail);
 
-      // HEIC fallback (or any broken image)
       img.addEventListener('error', () => {
         img.replaceWith(
           Object.assign(document.createElement('div'), {
@@ -119,33 +128,21 @@
 
     const title = document.createElement('h3');
     title.className = 'news-article-title';
-    title.textContent = item.subject || '(no subject)';
+    title.textContent = cleanSubject(item.subject || item.subjectRaw || '(no subject)');
 
-    // Snippet: prefer htmlBody (formatted), fall back to snippet/text fields
     const rawHtml = stripCidUrls(item.htmlBody || item.excerptHtml || '');
     const fallbackText = item.snippet || item.body || '';
     const fullTextForTrunc = rawHtml ? htmlToText(rawHtml) : fallbackText;
 
-    // Expand/collapse logic using word counts
     const MIN_WORDS = 150;
     const MAX_WORDS = 500;
 
     const snipWrap = document.createElement('div');
     snipWrap.className = 'news-article-snippet';
 
-    // We render as HTML if we have it; otherwise plain text.
-    // For tiles, we show truncated content (150 words) unless expanded.
     const minSlice = truncateWords(fullTextForTrunc, MIN_WORDS);
     const maxSlice = truncateWords(fullTextForTrunc, MAX_WORDS);
 
-    // We'll store both modes; default is minimized.
-    // If you want links to work in tiles, we must render HTML; but we cannot reliably
-    // truncate HTML while preserving tags. So:
-    // - Display minimized as plain text (safe, consistent)
-    // - Display expanded as plain text up to 500 words
-    // - Provide "...Read More" link to the full HTML article page
-    //
-    // This guarantees zero broken markup while keeping links functional via Read More.
     snipWrap.textContent = minSlice.text;
 
     const readMore = document.createElement('a');
@@ -154,7 +151,6 @@
     readMore.textContent = minSlice.truncated ? '...Read More' : 'Read More';
     readMore.addEventListener('click', (e) => e.stopPropagation());
 
-    // Expand indicator (optional UX)
     const expandHint = document.createElement('div');
     expandHint.className = 'news-expand-hint muted';
     expandHint.style.fontSize = '0.85rem';
@@ -170,22 +166,19 @@
 
     card.appendChild(body);
 
-    // Expand/collapse on tile click (does NOT navigate)
     card.addEventListener('click', () => {
       const expanded = card.classList.toggle('expanded');
-
       if (expanded) {
         snipWrap.textContent = maxSlice.text;
         readMore.textContent = maxSlice.truncated ? '...Read More' : 'Read More';
-        if (expandHint) expandHint.textContent = 'Click to collapse';
+        expandHint.textContent = 'Click to collapse';
       } else {
         snipWrap.textContent = minSlice.text;
         readMore.textContent = minSlice.truncated ? '...Read More' : 'Read More';
-        if (expandHint) expandHint.textContent = minSlice.truncated ? 'Click to expand' : '';
+        expandHint.textContent = minSlice.truncated ? 'Click to expand' : '';
       }
     });
 
-    // Keyboard activation: Enter/Space expands (not navigate)
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -194,6 +187,95 @@
     });
 
     return card;
+  }
+
+  // ----------------------------
+  // Filter UI
+  // ----------------------------
+  function getAllTypes(items) {
+    const set = new Set();
+    items.forEach((it) => set.add(normalizeType(it.type)));
+    // ensure known ordering + include unknowns at end
+    const known = TYPE_ORDER.filter((t) => set.has(t));
+    const unknown = [...set].filter((t) => !TYPE_ORDER.includes(t)).sort();
+    return [...known, ...unknown];
+  }
+
+  function mountFilters({ host, types, onChange }) {
+    host.innerHTML = '';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'news-filter-wrap';
+
+    const label = document.createElement('div');
+    label.className = 'news-filter-label';
+    label.textContent = 'Filter:';
+
+    const select = document.createElement('select');
+    select.className = 'news-filter-select';
+    select.setAttribute('aria-label', 'Filter news by category');
+
+    const optAll = document.createElement('option');
+    optAll.value = 'all';
+    optAll.textContent = 'All categories';
+    select.appendChild(optAll);
+
+    types.forEach((t) => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = typeLabel(t);
+      select.appendChild(opt);
+    });
+
+    // Optional: newest/oldest sort toggle (kept simple)
+    const sortSelect = document.createElement('select');
+    sortSelect.className = 'news-sort-select';
+    sortSelect.setAttribute('aria-label', 'Sort order');
+
+    const s1 = document.createElement('option');
+    s1.value = 'newest';
+    s1.textContent = 'Newest first';
+    sortSelect.appendChild(s1);
+
+    const s2 = document.createElement('option');
+    s2.value = 'oldest';
+    s2.textContent = 'Oldest first';
+    sortSelect.appendChild(s2);
+
+    const state = { type: 'all', sort: 'newest' };
+
+    function emit() {
+      onChange({ ...state });
+    }
+
+    select.addEventListener('change', () => {
+      state.type = select.value;
+      emit();
+    });
+
+    sortSelect.addEventListener('change', () => {
+      state.sort = sortSelect.value;
+      emit();
+    });
+
+    wrap.appendChild(label);
+    wrap.appendChild(select);
+    wrap.appendChild(sortSelect);
+    host.appendChild(wrap);
+
+    emit(); // initial
+  }
+
+  function sortItems(items, sortMode) {
+    const out = [...items];
+    out.sort((a, b) => {
+      const ap = a.pinned ? 1 : 0;
+      const bp = b.pinned ? 1 : 0;
+      if (bp !== ap) return bp - ap; // pinned first
+      return (b.date || "").localeCompare(a.date || "");
+    });
+    if (sortMode === 'oldest') out.reverse();
+    return out;
   }
 
   // ----------------------------
@@ -212,17 +294,24 @@
       statusEl.textContent = msg || '';
     };
 
+    // Ensure filters host exists
+    let filtersHost = document.getElementById('news-filters');
+    if (!filtersHost) {
+      filtersHost = document.createElement('div');
+      filtersHost.id = 'news-filters';
+      filtersHost.className = 'news-filters';
+      grid.parentElement?.insertBefore(filtersHost, grid);
+    }
+
     try {
       setStatus('Loading news…');
 
-      // News page is /news/index.html → up one level to /champ-site/data/news/news.json
       const res = await fetch('../data/news/news.json');
       if (!res.ok) {
         setStatus('No news feed available yet.');
         return;
       }
 
-      // Safe JSON parse so HTML 404 pages don't crash silently
       const text = await res.text();
       let data = null;
       try {
@@ -233,19 +322,35 @@
         return;
       }
 
-      const items = Array.isArray(data.items) ? data.items : [];
-      if (!items.length) {
+      const rawItems = Array.isArray(data.items) ? data.items : [];
+      if (!rawItems.length) {
         setStatus('No news items yet.');
         return;
       }
 
-      // Newest first
-      items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+      // Normalize types once
+      const items = rawItems.map((it) => ({ ...it, type: normalizeType(it.type) }));
+      const types = getAllTypes(items);
 
-      grid.innerHTML = '';
-      items.forEach((item) => grid.appendChild(buildNewsTile(item)));
+      function render({ type, sort }) {
+        const sorted = sortItems(items, sort);
+        const filtered = type === 'all' ? sorted : sorted.filter((it) => it.type === type);
 
-      setStatus('');
+        grid.innerHTML = '';
+        if (!filtered.length) {
+          setStatus('No items match that filter.');
+          return;
+        }
+
+        filtered.forEach((item) => grid.appendChild(buildNewsTile(item)));
+        setStatus('');
+      }
+
+      mountFilters({
+        host: filtersHost,
+        types,
+        onChange: render
+      });
     } catch (err) {
       console.error('[CHAMP news-page] Error loading news:', err);
       setStatus('Error loading news. Please try again later.');

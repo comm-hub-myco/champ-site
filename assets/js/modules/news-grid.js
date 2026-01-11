@@ -79,7 +79,12 @@
         }
 
         // Sort newest first
-        items.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        out.sort((a, b) => {
+          const ap = a.pinned ? 1 : 0;
+          const bp = b.pinned ? 1 : 0;
+          if (bp !== ap) return bp - ap; // pinned first
+          return (b.date || "").localeCompare(a.date || "");
+        });
 
         container.innerHTML = '';
 
