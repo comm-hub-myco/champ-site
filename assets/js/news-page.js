@@ -14,32 +14,60 @@
         return 'Poll';
       case 'in-the-news':
         return 'In the News';
-      case 'news':
+      case 'announcement':
+        return 'Announcement';
+      case 'updates':
+        return 'Updates';
+      case 'field-notes':
+        return 'Field Notes';
+      case 'ideas':
+        return 'Ideas';
+      case 'admin':
+        return 'Admin';
+      case 'qa':
+        return 'Q & A';
       default:
         return 'News';
     }
   }
 
-  const TYPE_ORDER = ['news', 'in-the-news', 'event', 'friends', 'question', 'poll'];
+  // Controls ordering in filter dropdown
+  const TYPE_ORDER = [
+    'announcement',
+    'updates',
+    'field-notes',
+    'in-the-news',
+    'ideas',
+    'admin',
+    'qa',
+    'event',
+    'friends',
+    'question',
+    'poll'
+  ];
 
   function normalizeType(type) {
     const t = (type || '').toString().trim().toLowerCase();
-    if (t === 'news') return 'field-notes';
+
+    // Back-compat / normalization
     if (t === 'in the news' || t === 'in_the_news') return 'in-the-news';
-    if (t === 'q&a' || t === 'q & a') return 'qa';
+    if (t === 'q&a' || t === 'q & a' || t === 'q and a' || t === 'qanda') return 'qa';
+
+    // If anything was previously "news", treat it as field-notes (per your instruction)
+    if (t === 'news') return 'field-notes';
+
     return t || 'field-notes';
   }
 
   function cleanSubject(raw) {
     return (raw || '')
       .toString()
-      .replace(/\[\s*CHAMP\s*:\s*[^\]]+\]/gi, '')   // remove [CHAMP: ...]
-      .replace(/~?\[CHAMP[^]]*\]~?/gi, '')          // remove ~[CHAMP]~ variants
+      .replace(/\[\s*CHAMP\s*:\s*[^\]]+\]/gi, '') // remove [CHAMP: ...]
+      .replace(/~?\[CHAMP[^]]*\]~?/gi, '') // remove ~[CHAMP]~ variants
       .trim()
       .replace(/^[-–—:]+/, '')
       .trim();
   }
-
 
   function getSiteBase() {
     const parts = window.location.pathname.split('/').filter(Boolean);
@@ -49,6 +77,24 @@
   function articleUrl(id) {
     const BASE = getSiteBase();
     return `${BASE}news/article/?id=${encodeURIComponent(id)}`;
+  }
+
+  // ----------------------------
+  // Fetch helpers (cache busting)
+  // ----------------------------
+  async function fetchJsonNoCache(url) {
+    const sep = url.includes('?') ? '&' : '?';
+    const res = await fetch(`${url}${sep}v=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Fetch failed: ${url} (${res.status})`);
+    return await res.json();
+  }
+
+  async function fetchJsonNoCacheSoft(url, fallback) {
+    try {
+      return await fetchJsonNoCache(url);
+    } catch {
+      return fallback;
+    }
   }
 
   // ----------------------------
@@ -87,7 +133,7 @@
     const type = normalizeType(item.type);
 
     const card = document.createElement('article');
-    card.className = `news-article-card news-type-${type}`;
+    card.className = `news-article-card news-type-${type}${item.pinned ? ' is-pinned' : ''}`;
     card.style.cursor = 'pointer';
     card.tabIndex = 0;
     card.setAttribute('role', 'link');
@@ -166,6 +212,7 @@
 
     card.appendChild(body);
 
+    // Expand/collapse on click (keep your behavior)
     card.addEventListener('click', () => {
       const expanded = card.classList.toggle('expanded');
       if (expanded) {
@@ -195,7 +242,6 @@
   function getAllTypes(items) {
     const set = new Set();
     items.forEach((it) => set.add(normalizeType(it.type)));
-    // ensure known ordering + include unknowns at end
     const known = TYPE_ORDER.filter((t) => set.has(t));
     const unknown = [...set].filter((t) => !TYPE_ORDER.includes(t)).sort();
     return [...known, ...unknown];
@@ -227,7 +273,6 @@
       select.appendChild(opt);
     });
 
-    // Optional: newest/oldest sort toggle (kept simple)
     const sortSelect = document.createElement('select');
     sortSelect.className = 'news-sort-select';
     sortSelect.setAttribute('aria-label', 'Sort order');
@@ -263,7 +308,7 @@
     wrap.appendChild(sortSelect);
     host.appendChild(wrap);
 
-    emit(); // initial
+    emit();
   }
 
   function sortItems(items, sortMode) {
@@ -272,7 +317,7 @@
       const ap = a.pinned ? 1 : 0;
       const bp = b.pinned ? 1 : 0;
       if (bp !== ap) return bp - ap; // pinned first
-      return (b.date || "").localeCompare(a.date || "");
+      return (b.date || '').localeCompare(a.date || '');
     });
     if (sortMode === 'oldest') out.reverse();
     return out;
@@ -306,30 +351,49 @@
     try {
       setStatus('Loading news…');
 
-      const res = await fetch('../data/news/news.json');
-      if (!res.ok) {
-        setStatus('No news feed available yet.');
-        return;
+      // Load main feed + ledgers (cache-busted)
+      const [newsData, archivedData, pinnedData] = await Promise.all([
+        fetchJsonNoCache('../data/news/news.json'),
+        // Support either archived.json or legacy deleted.json
+        fetchJsonNoCacheSoft('../data/news/archived.json', null),
+        fetchJsonNoCacheSoft('../data/news/pinned.json', { pinned: [] })
+      ]);
+
+      // If archived.json doesn't exist, attempt deleted.json
+      let archivedObj = archivedData;
+      if (!archivedObj) {
+        archivedObj = await fetchJsonNoCacheSoft('../data/news/deleted.json', { deleted: [] });
       }
 
-      const text = await res.text();
-      let data = null;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        console.warn('[CHAMP news-page] news.json not JSON. Response was:', text.slice(0, 200));
-        setStatus('News feed could not be loaded (invalid response).');
-        return;
-      }
-
-      const rawItems = Array.isArray(data.items) ? data.items : [];
+      const rawItems = Array.isArray(newsData.items) ? newsData.items : [];
       if (!rawItems.length) {
         setStatus('No news items yet.');
         return;
       }
 
-      // Normalize types once
-      const items = rawItems.map((it) => ({ ...it, type: normalizeType(it.type) }));
+      // Build archived set
+      const archivedIds = new Set(
+        (archivedObj.archived || archivedObj.deleted || []).map((x) => String(x))
+      );
+
+      // Build pinned set
+      const pinnedIds = new Set((pinnedData.pinned || []).map((x) => String(x)));
+
+      // Normalize + apply archived/pinned
+      const items = rawItems
+        .filter((it) => !archivedIds.has(String(it.id)))
+        .map((it) => ({
+          ...it,
+          type: normalizeType(it.type),
+          pinned: pinnedIds.has(String(it.id))
+        }));
+
+      if (!items.length) {
+        setStatus('No news items (all are archived).');
+        grid.innerHTML = '';
+        return;
+      }
+
       const types = getAllTypes(items);
 
       function render({ type, sort }) {

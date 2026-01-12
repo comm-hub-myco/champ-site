@@ -254,6 +254,7 @@
       setAdminStatus('Archiving…');
       try {
         await postWorker(archiveEndpoint, { id });
+        window.location.href = `../?v=${Date.now()}`;
         setAdminStatus('Archived. Returning to News…');
         setTimeout(() => (window.location.href = '../'), 700);
       } catch (e) {
@@ -274,6 +275,7 @@
 
       try {
         await postWorker(endpoint, { id });
+        window.location.reload();
         // update UI locally
         pinned = !pinned;
         pinBtn.textContent = pinned ? 'Unpin Article' : 'Pin Article';
