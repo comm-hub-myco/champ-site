@@ -24,9 +24,9 @@
 
   function normalizeType(type) {
     const t = (type || '').toString().trim().toLowerCase();
-    if (t === 'news') return 'field-notes';
+    if (t === 'news') return 'in-the-news';
     if (t === 'in the news' || t === 'in_the_news') return 'in-the-news';
-    if (t === 'q&a' || t === 'q & a') return 'qa';
+    if (t === 'q&a' || t === 'q & a' || t === 'q and a' || t === 'qanda') return 'qa';
     return t || 'field-notes';
   }
 
