@@ -1,4 +1,14 @@
 (function () {
+  function cleanSubject(raw) {
+    return (raw || '')
+      .toString()
+      .replace(/\[\s*CHAMP\s*:\s*[^\]]+\]/gi, '') // remove [CHAMP: ...]
+      .replace(/~?\[CHAMP[^]]*\]~?/gi, '')       // remove ~[CHAMP]~ variants
+      .trim()
+      .replace(/^[-–—:]+/, '')
+      .trim();
+  }
+
   function getSiteBase() {
     const parts = window.location.pathname.split('/').filter(Boolean);
     return '/' + (parts[0] || '') + '/';
@@ -9,6 +19,26 @@
     return `${BASE}news/article/?id=${encodeURIComponent(id)}`;
   }
 
+  function stripCidUrls(html) {
+    if (!html) return '';
+    let out = String(html);
+    out = out.replace(/<img\b[^>]*\bsrc=["']cid:[^"']*["'][^>]*>/gi, '');
+    out = out.replace(/url\(\s*["']?cid:[^)]+["']?\s*\)/gi, 'none');
+    return out;
+  }
+
+  function htmlToText(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html || '';
+    return (div.textContent || div.innerText || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function truncateWords(text, maxWords) {
+    const words = (text || '').trim().split(/\s+/).filter(Boolean);
+    if (words.length <= maxWords) return { text: text || '', truncated: false };
+    return { text: words.slice(0, maxWords).join(' '), truncated: true };
+  }
+
   async function fetchJsonNoCache(url) {
     const sep = url.includes('?') ? '&' : '?';
     const res = await fetch(`${url}${sep}v=${Date.now()}`, { cache: 'no-store' });
@@ -16,51 +46,49 @@
     return await res.json();
   }
 
+  async function fetchJsonSoft(url, fallback) {
+    try {
+      return await fetchJsonNoCache(url);
+    } catch {
+      return fallback;
+    }
+  }
+
+  function safeThumbSrc(thumbnail) {
+    if (!thumbnail) return '';
+    if (/^https?:\/\//i.test(thumbnail)) return thumbnail;
+    // front page is repo root; "gallery/images/..." should work directly
+    return thumbnail.replace(/^\/+/, '');
+  }
+
   function setStatus(el, msg) {
     if (el) el.textContent = msg || '';
   }
 
-  function normalizeLabelFromSubject(raw) {
-    const s = String(raw || '');
-    const m = s.match(/\[CHAMP:\s*([^\]]+)\]/i);
-    const label = m ? m[1].trim() : '';
-    const subject = s.replace(/\s*\[CHAMP:[^\]]+\]\s*/ig, '').trim();
-    return { label, subject };
-  }
-
-  function clampWords(html, maxWords) {
-    // Very lightweight: strip tags to measure words, but keep original HTML for display
-    const tmp = document.createElement('div');
-    tmp.innerHTML = html || '';
-    const text = (tmp.textContent || '').replace(/\s+/g, ' ').trim();
-    const words = text ? text.split(' ') : [];
-    if (words.length <= maxWords) return { html: html || '', truncated: false };
-
-    const clipped = words.slice(0, maxWords).join(' ') + '…';
-    // Return as plain text inside a <p> to avoid half-open tags
-    return { html: `<p>${escapeHtml(clipped)}</p>`, truncated: true };
-  }
-
-  function escapeHtml(s) {
-    return String(s || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-
-  function buildTile(item, pinnedSet) {
-    const { subject } = normalizeLabelFromSubject(item.subject || '');
-    const isPinned = pinnedSet.has(String(item.id));
-
+  function buildTile(item) {
     const card = document.createElement('article');
-    card.className = `event-card news-tile${isPinned ? ' is-pinned' : ''}`;
+    card.className = 'event-card news-tile';
     card.style.cursor = 'pointer';
 
     const thumb = document.createElement('div');
     thumb.className = 'event-card-thumb';
-    thumb.innerHTML = isPinned ? '<span>📌</span>' : '<span>📰</span>';
+
+    if (item.thumbnail) {
+      const img = document.createElement('img');
+      img.alt = item.subject || 'News thumbnail';
+      img.src = safeThumbSrc(item.thumbnail);
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+
+      img.addEventListener('error', () => {
+        thumb.innerHTML = '<span>📰</span>';
+      });
+
+      thumb.appendChild(img);
+    } else {
+      thumb.innerHTML = '<span>📰</span>';
+    }
 
     const body = document.createElement('div');
     body.className = 'event-card-body';
@@ -71,22 +99,24 @@
 
     const titleEl = document.createElement('h3');
     titleEl.className = 'event-card-title';
-    titleEl.textContent = subject || '(no subject)';
+    titleEl.textContent = cleanSubject(item.subject || item.subjectRaw || '(no subject)');
 
     const metaEl = document.createElement('div');
     metaEl.className = 'event-card-meta';
     metaEl.textContent = item.from || '';
 
+    const rawHtml = stripCidUrls(item.htmlBody || '');
+    const fullText = rawHtml ? htmlToText(rawHtml) : (item.snippet || '');
+
+    const MIN_WORDS = 150;
+    const MAX_WORDS = 500;
+
+    const minSlice = truncateWords(fullText, MIN_WORDS);
+    const maxSlice = truncateWords(fullText, MAX_WORDS);
+
     const excerptEl = document.createElement('div');
     excerptEl.className = 'event-card-meta';
-
-    // Prefer HTML body excerpt if available, else fallback to snippet/plain
-    const rawHtml = item.excerptHtml || item.htmlBody || '';
-    const fallback = item.snippet || '';
-    const min = clampWords(rawHtml || `<p>${escapeHtml(fallback)}</p>`, 150);
-    excerptEl.innerHTML = min.html;
-
-    // collapsed style
+    excerptEl.textContent = minSlice.text;
     excerptEl.style.whiteSpace = 'nowrap';
     excerptEl.style.overflow = 'hidden';
     excerptEl.style.textOverflow = 'ellipsis';
@@ -94,40 +124,25 @@
     const readMore = document.createElement('a');
     readMore.href = articleUrl(item.id);
     readMore.className = 'news-read-more';
-    readMore.textContent = 'Read More';
+    readMore.textContent = minSlice.truncated ? '...Read More' : 'Read More';
     readMore.addEventListener('click', (e) => e.stopPropagation());
 
+    // Expand/collapse on tile click (keep behavior)
     card.addEventListener('click', () => {
-      // Expand/collapse on click
       const expanded = card.classList.toggle('expanded');
       if (expanded) {
-        const max = clampWords(rawHtml || `<p>${escapeHtml(fallback)}</p>`, 500);
-        excerptEl.innerHTML = max.html;
-
+        excerptEl.textContent = maxSlice.text;
         excerptEl.style.whiteSpace = 'normal';
         excerptEl.style.overflow = 'visible';
         excerptEl.style.textOverflow = 'clip';
-
-        // Add "...Read More" if truncated at 500
-        if (max.truncated) {
-          const more = document.createElement('a');
-          more.href = articleUrl(item.id);
-          more.textContent = ' …Read More';
-          more.addEventListener('click', (e) => e.stopPropagation());
-          excerptEl.appendChild(more);
-        }
+        readMore.textContent = maxSlice.truncated ? '...Read More' : 'Read More';
       } else {
-        excerptEl.innerHTML = min.html;
+        excerptEl.textContent = minSlice.text;
         excerptEl.style.whiteSpace = 'nowrap';
         excerptEl.style.overflow = 'hidden';
         excerptEl.style.textOverflow = 'ellipsis';
+        readMore.textContent = minSlice.truncated ? '...Read More' : 'Read More';
       }
-    });
-
-    // Entire tile navigates if user clicks and it's already expanded? Keep as toggle only.
-    // If you want: double-click to open article:
-    card.addEventListener('dblclick', () => {
-      window.location.href = articleUrl(item.id);
     });
 
     body.appendChild(dateEl);
@@ -141,68 +156,78 @@
     return card;
   }
 
-  async function initNews() {
+  async function initNewsGrid() {
     const container = document.getElementById('news-grid');
     const statusEl = document.getElementById('news-status');
+
     if (!container) return false;
 
     try {
-      setStatus(statusEl, 'Loading news…');
+      setStatus(statusEl, 'Loading news...');
 
-      // frontpage is at repo root, so these are correct:
-      const [news, archived, pinned] = await Promise.all([
+      const [newsData, archivedData, pinnedData] = await Promise.all([
         fetchJsonNoCache('data/news/news.json'),
-        fetchJsonNoCache('data/news/archived.json').catch(() => ({ archived: [] })),
-        fetchJsonNoCache('data/news/pinned.json').catch(() => ({ pinned: [] }))
+        fetchJsonSoft('data/news/archived.json', null),
+        fetchJsonSoft('data/news/pinned.json', { pinned: [] })
       ]);
 
-      const items = Array.isArray(news.items) ? news.items : [];
+      // Legacy fallback: deleted.json
+      let archivedObj = archivedData;
+      if (!archivedObj) {
+        archivedObj = await fetchJsonSoft('data/news/deleted.json', { deleted: [] });
+      }
 
-      const archivedIds = new Set(
-        (archived.archived || archived.deleted || []).map((x) => String(x))
-      );
-      const pinnedIds = new Set((pinned.pinned || []).map((x) => String(x)));
-
-      // Filter archived
-      const visible = items.filter((it) => !archivedIds.has(String(it.id)));
-
-      // Sort pinned first, then newest date
-      visible.sort((a, b) => {
-        const ap = pinnedIds.has(String(a.id)) ? 1 : 0;
-        const bp = pinnedIds.has(String(b.id)) ? 1 : 0;
-        if (ap !== bp) return bp - ap;
-        return (b.date || '').localeCompare(a.date || '');
-      });
-
-      container.innerHTML = '';
-      if (!visible.length) {
+      const rawItems = Array.isArray(newsData.items) ? newsData.items : [];
+      if (!rawItems.length) {
+        container.innerHTML = '';
         setStatus(statusEl, 'No news items yet.');
         return true;
       }
 
-      visible.slice(0, 10).forEach((item) => {
-        container.appendChild(buildTile(item, pinnedIds));
+      const archivedIds = new Set(
+        (archivedObj.archived || archivedObj.deleted || []).map((x) => String(x))
+      );
+      const pinnedIds = new Set((pinnedData.pinned || []).map((x) => String(x)));
+
+      const items = rawItems
+        .filter((it) => !archivedIds.has(String(it.id)))
+        .map((it) => ({ ...it, pinned: pinnedIds.has(String(it.id)) }));
+
+      if (!items.length) {
+        container.innerHTML = '';
+        setStatus(statusEl, 'No news items (all archived).');
+        return true;
+      }
+
+      // pinned first, then newest first
+      items.sort((a, b) => {
+        const ap = a.pinned ? 1 : 0;
+        const bp = b.pinned ? 1 : 0;
+        if (bp !== ap) return bp - ap;
+        return (b.date || '').localeCompare(a.date || '');
       });
 
+      container.innerHTML = '';
+      items.slice(0, 10).forEach((item) => container.appendChild(buildTile(item)));
       setStatus(statusEl, '');
       return true;
     } catch (err) {
-      console.error('[CHAMP news] Error loading:', err);
+      console.error('[CHAMP news-grid] load failed:', err);
       setStatus(statusEl, 'Error loading news.');
       return true;
     }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const ok = initNews();
+    const ok = initNewsGrid();
     if (ok) return;
 
-    // if inserted later by module injection
+    // If HTML is injected after DOMContentLoaded, poll briefly
     let attempts = 0;
     const maxAttempts = 10;
     const interval = setInterval(() => {
       attempts++;
-      if (initNews() || attempts >= maxAttempts) clearInterval(interval);
+      if (initNewsGrid() || attempts >= maxAttempts) clearInterval(interval);
     }, 300);
   });
 })();
