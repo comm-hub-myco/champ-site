@@ -161,6 +161,24 @@
       "pinned": false,
       "archivedAt": "",
       "updatedAt": "2026-01-14T03:08:12.258Z"
+    },
+    {
+      "id": "19ae7b91fed627f7",
+      "type": "field-notes",
+      "subjectRaw": "~[CHAMP]~ Testing",
+      "subject": "~[CHAMP]~ Testing",
+      "date": "2025-12-03T23:58:05-05:00",
+      "from": "Agaricus Bisporus <comm.hub.myco@gmail.com>",
+      "htmlBody": "<div dir=\"ltr\">Testingtestingtesting test</div>",
+      "snippet": "Testingtestingtesting test",
+      "thumbnail": "",
+      "tags": [
+        "email",
+        "champ"
+      ],
+      "pinned": false,
+      "archivedAt": "",
+      "updatedAt": "2026-01-14T03:08:14.192Z"
     }
   ]
 }
