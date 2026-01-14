@@ -1,4 +1,8 @@
 (function () {
+  /* ----------------------------
+     Helpers
+  ---------------------------- */
+
   function cleanSubject(raw) {
     return (raw || '')
       .toString()
@@ -57,13 +61,34 @@
   function safeThumbSrc(thumbnail) {
     if (!thumbnail) return '';
     if (/^https?:\/\//i.test(thumbnail)) return thumbnail;
-    // front page is repo root; "gallery/images/..." should work directly
     return thumbnail.replace(/^\/+/, '');
   }
 
   function setStatus(el, msg) {
     if (el) el.textContent = msg || '';
   }
+
+  function findHostEls() {
+    // Support multiple possible homepage IDs/classes so you don’t have to match exactly.
+    const container =
+      document.getElementById('news-grid') ||
+      document.getElementById('front-news-grid') ||
+      document.getElementById('homepage-news-grid') ||
+      document.querySelector('[data-news-grid]') ||
+      document.querySelector('.news-grid');
+
+    const statusEl =
+      document.getElementById('news-status') ||
+      document.getElementById('front-news-status') ||
+      document.querySelector('[data-news-status]') ||
+      document.querySelector('.news-status');
+
+    return { container, statusEl };
+  }
+
+  /* ----------------------------
+     Tile Builder
+  ---------------------------- */
 
   function buildTile(item) {
     const card = document.createElement('article');
@@ -127,7 +152,7 @@
     readMore.textContent = minSlice.truncated ? '...Read More' : 'Read More';
     readMore.addEventListener('click', (e) => e.stopPropagation());
 
-    // Expand/collapse on tile click (keep behavior)
+    // Expand/collapse
     card.addEventListener('click', () => {
       const expanded = card.classList.toggle('expanded');
       if (expanded) {
@@ -156,11 +181,18 @@
     return card;
   }
 
-  async function initNewsGrid() {
-    const container = document.getElementById('news-grid');
-    const statusEl = document.getElementById('news-status');
+  /* ----------------------------
+     Main
+  ---------------------------- */
 
-    if (!container) return false;
+  async function initNewsGrid() {
+    const { container, statusEl } = findHostEls();
+
+    if (!container) {
+      // Silent by default, but this is your smoking gun for “nothing renders”
+      console.warn('[CHAMP news-grid] No container found. Expected #news-grid or [data-news-grid] or .news-grid.');
+      return false;
+    }
 
     try {
       setStatus(statusEl, 'Loading news...');
@@ -171,13 +203,14 @@
         fetchJsonSoft('data/news/pinned.json', { pinned: [] })
       ]);
 
-      // Legacy fallback: deleted.json
       let archivedObj = archivedData;
       if (!archivedObj) {
         archivedObj = await fetchJsonSoft('data/news/deleted.json', { deleted: [] });
       }
 
       const rawItems = Array.isArray(newsData.items) ? newsData.items : [];
+      console.log('[CHAMP news-grid] fetched items:', rawItems.length);
+
       if (!rawItems.length) {
         container.innerHTML = '';
         setStatus(statusEl, 'No news items yet.');
@@ -193,13 +226,14 @@
         .filter((it) => !archivedIds.has(String(it.id)))
         .map((it) => ({ ...it, pinned: pinnedIds.has(String(it.id)) }));
 
+      console.log('[CHAMP news-grid] after archive filter:', items.length);
+
       if (!items.length) {
         container.innerHTML = '';
         setStatus(statusEl, 'No news items (all archived).');
         return true;
       }
 
-      // pinned first, then newest first
       items.sort((a, b) => {
         const ap = a.pinned ? 1 : 0;
         const bp = b.pinned ? 1 : 0;
@@ -210,6 +244,8 @@
       container.innerHTML = '';
       items.slice(0, 10).forEach((item) => container.appendChild(buildTile(item)));
       setStatus(statusEl, '');
+
+      console.log('[CHAMP news-grid] rendered tiles:', Math.min(10, items.length));
       return true;
     } catch (err) {
       console.error('[CHAMP news-grid] load failed:', err);
@@ -218,16 +254,28 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const ok = initNewsGrid();
-    if (ok) return;
+  function boot() {
+    // Run immediately regardless of DOMContentLoaded timing.
+    initNewsGrid();
 
-    // If HTML is injected after DOMContentLoaded, poll briefly
+    // Also retry briefly in case homepage injects the container late.
     let attempts = 0;
-    const maxAttempts = 10;
+    const maxAttempts = 15;
     const interval = setInterval(() => {
       attempts++;
-      if (initNewsGrid() || attempts >= maxAttempts) clearInterval(interval);
+      const { container } = findHostEls();
+      if (container && container.children && container.children.length) {
+        clearInterval(interval);
+        return;
+      }
+      initNewsGrid();
+      if (attempts >= maxAttempts) clearInterval(interval);
     }, 300);
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 })();
