@@ -1,6 +1,24 @@
 {
   "items": [
     {
+      "id": "19bb53ae0b9e4f37",
+      "type": "in-the-news",
+      "subjectRaw": "[CHAMP: In the News] C.H.A.M.P. members in the News",
+      "subject": "C.H.A.M.P. members in the News",
+      "date": "2026-01-12T21:41:21-05:00",
+      "from": "BasidiomyCody <basidiomycody@gmail.com>",
+      "htmlBody": "<div dir=\"auto\">Check out C.H.A.M.P. member Amanda Dye’s work with Worcester’s Mushroom Urban Farm Initiative in Margaret LaRoux’s article: Little Champions (<a href=\"https://lane-press.mydigitalpublication.com/publication/?i=851847&amp;p=34&amp;view=issueViewer\">https://lane-press.mydigitalpublication.com/publication/?i=851847&amp;p=34&amp;view=issueViewer</a>)<div dir=\"auto\">Worcester-Grown Mushrooms Nourish Immigrants and Tradition (<a href=\"https://lane-press.mydigitalpublication.com/publication/?i=851847&amp;p=34&amp;view=issueViewer\">https://lane-press.mydigitalpublication.com/publication/?i=851847&amp;p=34&amp;view=issueViewer</a>), Edible Worcester, Fall 2025</div></div>",
+      "snippet": "Check out C.H.A.M.P. member Amanda Dye’s work with Worcester’s Mushroom Urban Farm Initiative in Margaret LaRoux’s article: Little Champions ( https://lane-press.mydigitalpublication.com/publication/?i=851847&p=34&view=issueViewer ) Worcester-Grown Mushrooms Nourish Immigrants and Tradition ( https://lane-press.mydigitalpublication.com/publication/?i=851847&p=34&view=issueViewer), Edible Worcester",
+      "thumbnail": "",
+      "tags": [
+        "email",
+        "champ"
+      ],
+      "pinned": false,
+      "archivedAt": "",
+      "updatedAt": "2026-01-14T02:38:04.780Z"
+    },
+    {
       "id": "19ba56a6ff0b13a8",
       "type": "field-notes",
       "subjectRaw": "[CHAMP: News] C.H.A.M.P. visits BOSLab (01-09-26). Field notes.",
