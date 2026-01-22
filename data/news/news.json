@@ -1,6 +1,24 @@
 {
   "items": [
     {
+      "id": "19be4507f1bf49bd",
+      "type": "field-notes",
+      "subjectRaw": "[CHAMP: Members in the News]",
+      "subject": "(no subject)",
+      "date": "2026-01-22T01:07:12-05:00",
+      "from": "CommunityMycology <CommunityMycology@proton.me>",
+      "htmlBody": "<div style=\"font-family: Arial, sans-serif; font-size: 14px;\"><p style=\"margin:0px;font-size:23px;line-height:normal;font-size-adjust:none;font-kerning:auto;font-optical-sizing:auto;text-decoration:none\"><span style=\"font-family:UICTFontTextStyleBody;font-weight:normal\">Mycologist Larry Millman is on a mission to record the fungi at Fresh Pond Reservation in Cambridge. He’s one discovery away from cataloging his 400th species. Listen to this charismatic champion of seemingly uncharismatic fungi:<span>&nbsp;</span></span></p><p style=\"margin:0px;font-size:23px;line-height:normal;font-size-adjust:none;font-kerning:auto;font-optical-sizing:auto;min-height:29px;text-decoration:none\"><span style=\"font-family:UICTFontTextStyleBody;font-weight:normal\"></span><br></p><p style=\"margin:0px;font-size:23px;line-height:normal;font-size-adjust:none;font-kerning:auto;font-optical-sizing:auto;text-decoration:none\"><span style=\"font-family:UICTFontTextStyleBody;font-weight:normal\"><a href=\"https://www.wgbh.org/news/local/2026-01-15/399-and-counting-one-mans-quest-to-find-fresh-ponds-fungi\">https://www.wgbh.org/news/local/2026-01-15/399-and-counting-one-mans-quest-to-find-fresh-ponds-fungi</a></span></p></div>",
+      "snippet": "Mycologist Larry Millman is on a mission to record the fungi at Fresh Pond Reservation in Cambridge. He’s one discovery away from cataloging his 400th species. Listen to this charismatic champion of seemingly uncharismatic fungi: https://www.wgbh.org/news/local/2026-01-15/399-and-counting-one-mans-quest-to-find-fresh-ponds-fungi",
+      "thumbnail": "",
+      "tags": [
+        "email",
+        "champ"
+      ],
+      "pinned": false,
+      "archivedAt": "",
+      "updatedAt": "2026-01-22T06:08:05.935Z"
+    },
+    {
       "id": "19bb53ae0b9e4f37",
       "type": "in-the-news",
       "subjectRaw": "[CHAMP: In the News] C.H.A.M.P. members in the News",
@@ -145,5 +163,5 @@
       "updatedAt": "2026-01-15T01:38:13.245Z"
     }
   ],
-  "updatedAt": "2026-01-15T01:38:13.245Z"
+  "updatedAt": "2026-01-22T06:08:05.935Z"
 }
